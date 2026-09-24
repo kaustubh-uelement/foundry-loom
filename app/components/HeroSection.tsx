@@ -57,47 +57,71 @@ export default function HeroSection({
       if (!startTime) startTime = time;
       const t = (time - startTime) / 1000;
 
-      // Smooth mouse lerp
-      mouseX += (targetMouseX - mouseX) * 0.04;
-      mouseY += (targetMouseY - mouseY) * 0.04;
-      const mY = (mouseY - 0.5) * 30;
-      const mX = (mouseX - 0.5) * 20;
+      // Dreamy, laggy mouse — responds slowly like silk pulled by air
+      mouseX += (targetMouseX - mouseX) * 0.025;
+      mouseY += (targetMouseY - mouseY) * 0.025;
+      const mY = (mouseY - 0.5) * 45;
+      const mX = (mouseX - 0.5) * 28;
 
-      // --- Single smooth cubic Bézier (M → C with ONE control-point pair) ---
-      // Anchor points that drift very slowly so the overall arc changes organically
-      const startY = 595
-        + Math.sin(t * 0.31) * 8
-        + Math.cos(t * 0.17) * 5;
+      // ── Start anchor — barely moves ────────────────────────────────────
+      const startY = 618
+        + Math.sin(t * 0.13) * 14
+        + Math.cos(t * 0.08) * 8;
 
-      const endY = 200
-        + Math.sin(t * 0.28 + 1.4) * 10
-        + Math.cos(t * 0.19) * 6;
+      // ── Mid-point: the S-curve inflection — the thread's heartbeat ─────
+      // Three stacked harmonics with irrational ratios → never repeats
+      const midX = 545
+        + Math.cos(t * 0.11 + 0.6) * 18
+        + mX * 0.25;
+      const midY = 390
+        + Math.sin(t * 0.17 + 1.1) * 50   // dominant slow drift
+        + Math.cos(t * 0.09 + 2.4) * 26   // secondary lazy sway
+        + Math.sin(t * 0.23 + 0.4) * 12   // fine organic texture
+        + mY * 0.45;
 
+      // ── End anchor — drifts slowly in the upper-right ─────────────────
       const endX = 1220
-        + Math.cos(t * 0.23) * 6;
+        + Math.cos(t * 0.10) * 8;
+      const endY = 185
+        + Math.sin(t * 0.14 + 2.0) * 16
+        + Math.cos(t * 0.08 + 0.7) * 9;
 
-      // Control point 1 – pulls the curve up/down near the left quarter
-      const cp1x = 370
-        + Math.cos(t * 0.22 + 0.8) * 18
-        + mX * 0.4;
-      const cp1y = 560
-        + Math.sin(t * 0.37 + 0.4) * 22
-        + Math.cos(t * 0.19 + 2.1) * 12
-        + mY * 0.5;
+      // ── CP1: lifts the thread off the start, sets first-half tone ──────
+      const cp1x = 180
+        + Math.cos(t * 0.12 + 0.9) * 22
+        + mX * 0.15;
+      const cp1y = 588
+        + Math.sin(t * 0.18 + 0.6) * 38
+        + Math.cos(t * 0.10 + 1.9) * 20
+        + mY * 0.25;
 
-      // Control point 2 – pulls near the right quarter; kept tangentially coherent
-      const cp2x = 860
-        + Math.sin(t * 0.26 + 1.6) * 18
-        + mX * 0.6;
-      const cp2y = 340
-        + Math.cos(t * 0.33 + 0.9) * 24
-        + Math.sin(t * 0.18 + 2.8) * 12
-        + mY * 0.7;
+      // ── CP2: tangent INTO the midpoint — also defines the S reflection ─
+      // Offset below-and-left of mid so the SVG S command reflects it
+      // above-and-right → creating the inflection that makes the S-curve
+      const cp2x = midX - 178
+        + Math.sin(t * 0.14 + 2.2) * 18;
+      const cp2y = midY + 78
+        + Math.cos(t * 0.11 + 1.0) * 24
+        + Math.sin(t * 0.08 + 2.8) * 14
+        + mY * 0.35;
 
+      // ── CP3: explicit control point for the S segment ─────────────────
+      const cp3x = 968
+        + Math.cos(t * 0.15 + 1.4) * 24
+        + mX * 0.5;
+      const cp3y = 252
+        + Math.sin(t * 0.12 + 0.7) * 30
+        + Math.cos(t * 0.09 + 2.0) * 16
+        + mY * 0.55;
+
+      // M start → C cp1 cp2 mid → S cp3 end
+      // The S command auto-mirrors cp2 around mid → C1 continuity, zero kinks
       const d =
         `M -20 ${startY.toFixed(1)} ` +
         `C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ` +
         `${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ` +
+        `${midX.toFixed(1)} ${midY.toFixed(1)} ` +
+        `S ${cp3x.toFixed(1)} ${cp3y.toFixed(1)}, ` +
         `${endX.toFixed(1)} ${endY.toFixed(1)}`;
 
       if (pathBaseRef.current) pathBaseRef.current.setAttribute('d', d);

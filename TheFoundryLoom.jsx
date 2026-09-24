@@ -459,12 +459,31 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
         <div className="wrap">
           <div className="foot">
             <div><img src={logoLight} alt="The Foundry Loom" /><p className="tag">Forged in substance. Woven into influence.</p></div>
-            <div><h4>Explore</h4><ul>{NAV.map(([h, l]) => <li key={h}><a href={h}>{l}</a></li>)}</ul></div>
+            <div className="foot-explore">
+              <h4>Explore</h4>
+              <div className="foot-explore-cols">
+                <ul>{NAV.slice(0, Math.ceil(NAV.length / 2)).map(([h, l]) => <li key={h}><a href={h}>{l}</a></li>)}</ul>
+                <ul>{NAV.slice(Math.ceil(NAV.length / 2)).map(([h, l]) => <li key={h}><a href={h}>{l}</a></li>)}</ul>
+              </div>
+            </div>
             <div><h4>Reach us</h4><ul><li><a href={SITE.phoneHref}>{SITE.phone}</a></li><li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li><li>Bhandup West, Mumbai 400078</li></ul></div>
           </div>
           <div className="legal"><span>© {new Date().getFullYear()} The Foundry Loom. All rights reserved.</span><button className="theme-toggle" type="button" onClick={toggleTheme}>Switch theme</button></div>
         </div>
       </footer>
+
+      <button
+        type="button"
+        className={`back-to-top${stickyOn ? ' show' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Back to top"
+        tabIndex={stickyOn ? 0 : -1}
+        aria-hidden={!stickyOn}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 19V5M5 12l7-7 7 7" />
+        </svg>
+      </button>
 
       <dialog ref={dialogRef} aria-labelledby="tfl-rsvp-title" onClose={() => setRsvpFor(null)}>
         {rsvpFor && (

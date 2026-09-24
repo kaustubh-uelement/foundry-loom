@@ -18,13 +18,20 @@ export default function Footer({ onToggleTheme, theme }: FooterProps) {
             <Image src="/logo-light.png" alt="The Foundry Loom" width={130} height={130} />
             <p className="tag">Forged in substance. Woven into influence.</p>
           </div>
-          <div>
+          <div className="foot-explore">
             <h4>Explore</h4>
-            <ul>
-              {NAV.map(([href, label]) => (
-                <li key={href}><a href={href}>{label}</a></li>
-              ))}
-            </ul>
+            <div className="foot-explore-cols">
+              <ul>
+                {NAV.slice(0, Math.ceil(NAV.length / 2)).map(([href, label]) => (
+                  <li key={href}><a href={href}>{label}</a></li>
+                ))}
+              </ul>
+              <ul>
+                {NAV.slice(Math.ceil(NAV.length / 2)).map(([href, label]) => (
+                  <li key={href}><a href={href}>{label}</a></li>
+                ))}
+              </ul>
+            </div>
           </div>
           <div>
             <h4>Reach us</h4>

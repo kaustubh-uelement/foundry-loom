@@ -13,6 +13,7 @@ import ProcessSection from './ProcessSection';
 import EventsSection from './EventsSection';
 import ContactSection from './ContactSection';
 import Footer from './Footer';
+import BackToTop from './BackToTop';
 import RsvpModal from './RsvpModal';
 
 type Theme = 'light' | 'dark';
@@ -98,6 +99,8 @@ export default function FoundryLoom() {
       </main>
 
       <Footer onToggleTheme={toggleTheme} theme={theme} />
+
+      <BackToTop show={stickyOn} />
 
       <RsvpModal event={rsvpFor} onClose={closeRsvp} />
     </div>

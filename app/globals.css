@@ -269,17 +269,38 @@
   position: relative;
   border-radius: var(--r-xl);
   overflow: hidden;
+
   /*
-   * Light theme: Rich deep pink/maroon with translucency so white text is crisp & legible and grid is clearly visible.
+   * Apple-grade frosted glass: semi-transparent so the grid behind is visible but
+   * diffused through the blur. backdrop-filter is intentionally ON here (on the
+   * outermost glass surface). The stats bar gets its own solid background so it
+   * looks frosted against the hero surface beneath it.
    */
-  background-color: rgba(122, 38, 64, 0.74);
-  -webkit-backdrop-filter: blur(1px) saturate(1.2);
-  backdrop-filter: blur(1px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  background:
+    linear-gradient(
+      150deg,
+      rgba(160, 48, 80, 0.26) 0%,
+      rgba(125, 35, 62, 0.22) 45%,
+      rgba(145, 42, 72, 0.24) 100%
+    );
+
+  /* Premium frost: strong blur + vivid saturation + slight warmth */
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(0.96);
+          backdrop-filter: blur(28px) saturate(190%) brightness(0.96);
+
+  /* Asymmetric border — top-left bright, bottom-right dim (how glass catches light) */
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  border-right-color:  rgba(255, 255, 255, 0.10);
+
   box-shadow:
-    inset 0 0 2px 1px rgba(255, 255, 255, 0.28),
-    inset 0 0 16px 2px rgba(255, 255, 255, 0.08),
-    0 24px 60px -12px rgba(31, 20, 10, 0.28);
+    inset 0 1.5px 0     rgba(255, 255, 255, 0.45),   /* top rim highlight   */
+    inset 0 -1px  0     rgba(80,  20,  45, 0.30),    /* bottom depth edge   */
+    inset 1px  0  0     rgba(255, 255, 255, 0.16),   /* left rim catch      */
+    inset -1px 0  0     rgba(80,  20,  45, 0.14),    /* right depth edge    */
+    0 4px  16px -4px    rgba(0,   0,   0,  0.24),    /* close shadow        */
+    0 24px 60px -12px   rgba(31,  20,  10, 0.32);    /* deep ambient shadow */
+
   color: var(--peach);
   flex: 1;
   height: 100%;
@@ -290,15 +311,32 @@
   box-sizing: border-box;
 }
 
-/* Dark theme hero: luminous translucent pink over dark background */
+/* Dark theme hero: more translucent over the dark grid */
 .tfl[data-theme="dark"] .hero {
-  background-color: rgba(215, 80, 125, 0.32);
+  background:
+    linear-gradient(
+      150deg,
+      rgba(215, 80, 125, 0.38) 0%,
+      rgba(180, 55, 100, 0.30) 50%,
+      rgba(215, 80, 125, 0.36) 100%
+    );
 }
 
-/* Disabled uneven gradients so hero color is completely uniform */
+/* Fine grain texture on the hero glass surface — the Apple secret sauce */
 .tfl .hero::before {
-  display: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay
 }
+
+
 
 .tfl .weave {
   display: none;
@@ -1300,31 +1338,41 @@
 .tfl footer {
   background: var(--maroon);
   color: var(--peach);
-  padding: 32px 0 20px;
-  margin-top: 24px;
+  padding: 22px 0 16px;
+  margin-top: 20px;
 }
 
 .tfl .foot {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: 1.2fr 1.3fr 1fr;
   gap: 28px;
   align-items: start;
 }
 
 .tfl .foot img {
-  width: 80px;
+  width: 64px;
+  height: auto;
 }
 
 .tfl .foot .tag {
-  font: italic 500 1.25rem/1.2 var(--serif);
-  max-width: 18ch;
-  margin-top: 8px;
+  font: italic 500 1.12rem/1.2 var(--serif);
+  max-width: 22ch;
+  margin-top: 6px;
+  margin-bottom: 0;
 }
 
 .tfl .foot h4 {
-  font-size: .88rem;
-  margin: 0 0 8px;
+  font-size: .84rem;
+  margin: 0 0 6px;
   color: var(--pink);
+  text-transform: capitalize;
+}
+
+.tfl .foot-explore-cols {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 24px;
+  align-items: start;
 }
 
 .tfl .foot ul {
@@ -1332,28 +1380,31 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 6px;
+  gap: 5px;
 }
 
 .tfl .foot a {
   text-decoration: none;
   color: var(--peach);
+  font-size: .92rem;
+  transition: opacity 0.15s ease;
 }
 
 .tfl .foot a:hover {
   text-decoration: underline;
+  opacity: 0.9;
 }
 
 .tfl .legal {
-  border-top: 1px solid rgba(244, 238, 233, .2);
-  margin-top: 24px;
-  padding-top: 14px;
+  border-top: 1px solid rgba(244, 238, 233, .16);
+  margin-top: 16px;
+  padding-top: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  font-size: .82rem;
+  font-size: .8rem;
   color: #EAD3D8;
   text-align: center;
 }
@@ -1582,12 +1633,36 @@
 .tfl .stats {
   margin: 0 28px 28px;
   padding: 22px 26px;
-  border-radius: 22px
+  border-radius: 22px;
+
+  /*
+   * Stats bar lives inside .hero (which has backdrop-filter), so its own
+   * backdrop-filter would blur the hero surface, not the real background.
+   * Instead: use a solid-enough gradient that looks like a frosted inner panel.
+   */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(185, 55, 95, 0.82) 0%,
+      rgba(155, 38, 72, 0.90) 55%,
+      rgba(180, 52, 88, 0.80) 100%
+    ) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
+
+  box-shadow:
+    inset 0 1.5px 0   rgba(255, 255, 255, 0.50),   /* bright top rim      */
+    inset 0 -1px  0   rgba(80,  18,  45, 0.30),    /* bottom depth edge   */
+    inset 1px  0  0   rgba(255, 255, 255, 0.16),   /* left rim catch      */
+    inset -1px 0  0   rgba(80,  18,  45, 0.14),    /* right depth edge    */
+    0 -4px 16px -4px  rgba(0,   0,   0,  0.15) !important  /* shadow up into hero */
 }
 
 .tfl .stats .stat {
-  border-top-color: rgba(244, 238, 233, .22)
+  border-top-color: rgba(244, 238, 233, .32)
 }
+
 
 .tfl .hero-mark {
   aspect-ratio: 1;
@@ -1596,6 +1671,7 @@
   place-items: center;
   padding: clamp(28px, 3.2vw, 42px);
   position: relative;
+  z-index: 3;   /* explicitly above thread (z-index: 1) */
   /* Gradient base — catches light at top-left like a curved glass sphere */
   background:
     linear-gradient(
@@ -1851,6 +1927,85 @@
   transform: scale(0.94);
 }
 
+/* ---------- STICKY BACK TO TOP BUTTON ---------- */
+.tfl .back-to-top {
+  position: fixed;
+  z-index: 50;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  right: calc(env(safe-area-inset-right, 0px) + 24px);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(244, 238, 233, 0.76);
+  color: var(--ink);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 6px 20px rgba(68, 41, 12, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(0.92);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    visibility 0s 0.35s;
+}
+
+.tfl .back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.tfl .back-to-top:hover {
+  background: rgba(244, 238, 233, 0.94);
+  border-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 10px 24px rgba(68, 41, 12, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: var(--accent);
+}
+
+.tfl .back-to-top svg {
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.tfl .back-to-top:hover svg {
+  transform: translateY(-2px);
+}
+
+.tfl .back-to-top:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.tfl[data-theme="dark"] .back-to-top {
+  background: rgba(31, 20, 10, 0.75);
+  border-color: rgba(244, 238, 233, 0.22);
+  color: var(--peach);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.tfl[data-theme="dark"] .back-to-top:hover {
+  background: rgba(45, 28, 16, 0.9);
+  border-color: rgba(244, 238, 233, 0.4);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  color: var(--pink);
+}
 
 @media (max-width:1020px) {
   .tfl .sticky ul {
@@ -1861,8 +2016,14 @@
 @media (prefers-reduced-motion: reduce) {
 
   .tfl .sticky,
-  .tfl .sticky.show {
+  .tfl .sticky.show,
+  .tfl .back-to-top,
+  .tfl .back-to-top.show {
     transition: none
+  }
+
+  .tfl .back-to-top:hover svg {
+    transform: none
   }
 }
 
@@ -1897,6 +2058,14 @@
     background: rgba(244, 238, 233, .97)
   }
 
+  .tfl .back-to-top {
+    background: rgba(244, 238, 233, .96)
+  }
+
+  .tfl[data-theme="dark"] .back-to-top {
+    background: rgba(31, 20, 10, .95)
+  }
+
   .tfl .case {
     background: #52341b
   }
@@ -1918,6 +2087,13 @@
 
   .tfl .brand span {
     font-size: 1.15rem
+  }
+
+  .tfl .back-to-top {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+    right: calc(env(safe-area-inset-right, 0px) + 16px);
+    width: 42px;
+    height: 42px;
   }
 }
 
