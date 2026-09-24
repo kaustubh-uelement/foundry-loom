@@ -18,7 +18,13 @@ export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onTogg
   return (
     <nav className="nav" aria-label="Main">
       <a className="brand" href="#top">
-        <Image src="/logo-light.png" alt="" width={54} height={54} priority />
+        <Image
+          src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
+          alt=""
+          width={54}
+          height={54}
+          priority
+        />
         <span>The Foundry Loom</span>
       </a>
 

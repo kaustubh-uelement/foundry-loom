@@ -255,14 +255,14 @@
   /* Grid lives here — direct parent of .hero — so backdrop-filter can sample it */
   background-color: var(--bg);
   background-image:
-    repeating-linear-gradient(90deg, rgba(68, 41, 12, .32) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(0deg, rgba(68, 41, 12, .32) 0 1px, transparent 1px 22px);
+    repeating-linear-gradient(90deg, rgba(68, 41, 12, .28) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(0deg, rgba(68, 41, 12, .28) 0 1px, transparent 1px 22px);
 }
 
 .tfl[data-theme="dark"] .hero-shell {
   background-image:
-    repeating-linear-gradient(90deg, rgba(244, 238, 233, .30) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(0deg, rgba(244, 238, 233, .30) 0 1px, transparent 1px 22px);
+    repeating-linear-gradient(90deg, rgba(244, 238, 233, .22) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(0deg, rgba(244, 238, 233, .22) 0 1px, transparent 1px 22px);
 }
 
 .tfl .hero {
@@ -271,37 +271,38 @@
   overflow: hidden;
 
   /*
-   * Apple-grade frosted glass: semi-transparent so the grid behind is visible but
-   * diffused through the blur. backdrop-filter is intentionally ON here (on the
-   * outermost glass surface). The stats bar gets its own solid background so it
-   * looks frosted against the hero surface beneath it.
+   * TRUE frosted glass — hero-shell is the solid backdrop; this panel is
+   * semi-transparent so backdrop-filter blurs whatever is behind it (the
+   * grid pattern on hero-shell). Keep background alpha LOW so the effect
+   * is actually visible rather than an opaque panel.
+   *
+   * Light theme: warm blush-white tint (~40% opacity max).
    */
   background:
     linear-gradient(
       150deg,
-      rgba(160, 48, 80, 0.26) 0%,
-      rgba(125, 35, 62, 0.22) 45%,
-      rgba(145, 42, 72, 0.24) 100%
+      rgba(255, 245, 248, 0.55) 0%,
+      rgba(245, 215, 225, 0.42) 50%,
+      rgba(255, 240, 245, 0.50) 100%
     );
 
-  /* Premium frost: strong blur + vivid saturation + slight warmth */
-  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(0.96);
-          backdrop-filter: blur(28px) saturate(190%) brightness(0.96);
+  /* Strong frost: heavy blur + colour pop */
+  -webkit-backdrop-filter: blur(40px) saturate(150%) brightness(1.08);
+          backdrop-filter: blur(40px) saturate(150%) brightness(1.08);
 
-  /* Asymmetric border — top-left bright, bottom-right dim (how glass catches light) */
-  border: 1px solid rgba(255, 255, 255, 0.30);
-  border-bottom-color: rgba(255, 255, 255, 0.10);
-  border-right-color:  rgba(255, 255, 255, 0.10);
+  /* Bright top-left border = glass catching window light */
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-bottom-color: rgba(200, 155, 170, 0.30);
+  border-right-color:  rgba(200, 155, 170, 0.30);
 
   box-shadow:
-    inset 0 1.5px 0     rgba(255, 255, 255, 0.45),   /* top rim highlight   */
-    inset 0 -1px  0     rgba(80,  20,  45, 0.30),    /* bottom depth edge   */
-    inset 1px  0  0     rgba(255, 255, 255, 0.16),   /* left rim catch      */
-    inset -1px 0  0     rgba(80,  20,  45, 0.14),    /* right depth edge    */
-    0 4px  16px -4px    rgba(0,   0,   0,  0.24),    /* close shadow        */
-    0 24px 60px -12px   rgba(31,  20,  10, 0.32);    /* deep ambient shadow */
+    inset 0 1.5px 0     rgba(255, 255, 255, 0.85),   /* top rim highlight   */
+    inset 0 -1px  0     rgba(127, 46,  69, 0.12),    /* bottom depth edge   */
+    inset 1px  0  0     rgba(255, 255, 255, 0.45),   /* left rim catch      */
+    inset -1px 0  0     rgba(127, 46,  69, 0.06),    /* right depth edge    */
+    0 4px  16px -4px    rgba(0,   0,   0,  0.10),    /* close shadow        */
+    0 24px 60px -12px   rgba(127, 46,  69, 0.12);    /* deep ambient shadow */
 
-  color: var(--peach);
   flex: 1;
   height: 100%;
   max-height: 100%;
@@ -311,15 +312,27 @@
   box-sizing: border-box;
 }
 
-/* Dark theme hero: more translucent over the dark grid */
+/* Dark theme hero: deep maroon-rose over the dark grid */
 .tfl[data-theme="dark"] .hero {
   background:
     linear-gradient(
       150deg,
-      rgba(215, 80, 125, 0.38) 0%,
-      rgba(180, 55, 100, 0.30) 50%,
-      rgba(215, 80, 125, 0.36) 100%
+      rgba(75, 18, 38, 0.72) 0%,
+      rgba(55, 12, 28, 0.65) 50%,
+      rgba(70, 16, 35, 0.70) 100%
     );
+  -webkit-backdrop-filter: blur(40px) saturate(220%) brightness(0.85);
+          backdrop-filter: blur(40px) saturate(220%) brightness(0.85);
+  border-color: rgba(255, 255, 255, 0.14);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+  border-right-color:  rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 1.5px 0     rgba(255, 255, 255, 0.22),
+    inset 0 -1px  0     rgba(40,  10,  20, 0.40),
+    inset 1px  0  0     rgba(255, 255, 255, 0.10),
+    inset -1px 0  0     rgba(40,  10,  20, 0.20),
+    0 4px  16px -4px    rgba(0,   0,   0,  0.40),
+    0 24px 60px -12px   rgba(0,   0,   0,  0.50);
 }
 
 /* Fine grain texture on the hero glass surface — the Apple secret sauce */
@@ -382,12 +395,13 @@
   flex-shrink: 0;
 }
 
+/* ── Light theme nav: dark maroon text on blush glass ── */
 .tfl .brand {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: var(--peach)
+  color: var(--derby)
 }
 
 .tfl .brand img {
@@ -403,7 +417,7 @@
 .tfl .navlinks {
   display: flex;
   gap: 4px;
-  border: 1px solid rgba(244, 238, 233, .35);
+  border: 1px solid rgba(127, 46, 69, .25);
   border-radius: 999px;
   padding: 5px;
   list-style: none;
@@ -417,11 +431,11 @@
   font-size: .9rem;
   font-weight: 500;
   text-decoration: none;
-  color: var(--peach)
+  color: var(--derby)
 }
 
 .tfl .navlinks a:hover {
-  background: rgba(244, 238, 233, .14)
+  background: rgba(127, 46, 69, .10)
 }
 
 .tfl .nav-right {
@@ -434,14 +448,40 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(244, 238, 233, .4);
+  border: 1px solid rgba(127, 46, 69, .35);
   display: grid;
   place-items: center;
-  color: var(--peach);
+  color: var(--derby);
   text-decoration: none
 }
 
 .tfl .icon-btn:hover {
+  background: rgba(127, 46, 69, .10)
+}
+
+/* ── Dark theme nav: peach text ── */
+.tfl[data-theme="dark"] .brand {
+  color: var(--peach)
+}
+
+.tfl[data-theme="dark"] .navlinks {
+  border-color: rgba(244, 238, 233, .35);
+}
+
+.tfl[data-theme="dark"] .navlinks a {
+  color: var(--peach)
+}
+
+.tfl[data-theme="dark"] .navlinks a:hover {
+  background: rgba(244, 238, 233, .14)
+}
+
+.tfl[data-theme="dark"] .icon-btn {
+  border-color: rgba(244, 238, 233, .4);
+  color: var(--peach)
+}
+
+.tfl[data-theme="dark"] .icon-btn:hover {
   background: rgba(244, 238, 233, .14)
 }
 
@@ -450,6 +490,7 @@
   background: none;
   cursor: pointer
 }
+
 
 .tfl .hero-body {
   position: relative;
@@ -463,15 +504,17 @@
   padding: clamp(4px, 1vh, 16px) clamp(20px, 2.5vw, 40px);
 }
 
+/* ── Light theme hero text: dark maroon on blush-white glass ── */
 .tfl .hero-body p.intro {
   font-size: clamp(0.92rem, 0.8vw + 0.5vh, 1.08rem);
   max-width: 48ch;
-  color: #EFDCE0;
+  color: var(--maroon);
+  opacity: 0.85;
   margin: clamp(10px, 1.4vh, 18px) 0 clamp(16px, 2vh, 24px);
 }
 
 .tfl .hero h1 {
-  color: var(--peach);
+  color: var(--derby);
   font-size: clamp(2rem, 3.4vw + 2.2vh, 4.1rem);
   font-weight: 500;
   line-height: 1.0;
@@ -481,9 +524,23 @@
 .tfl .hero h1 em {
   font-style: italic;
   font-weight: 400;
-  color: var(--pink);
+  color: var(--maroon);
   display: block;
   letter-spacing: -.01em
+}
+
+/* ── Dark theme hero text: light peach/pink palette ── */
+.tfl[data-theme="dark"] .hero-body p.intro {
+  color: #EFDCE0;
+  opacity: 1;
+}
+
+.tfl[data-theme="dark"] .hero h1 {
+  color: var(--peach);
+}
+
+.tfl[data-theme="dark"] .hero h1 em {
+  color: var(--pink);
 }
 
 .tfl .hero-mark {
@@ -505,15 +562,33 @@
   align-items: center
 }
 
+/* Light theme: ghost btn uses maroon border/text */
 .tfl .hero-actions .btn-ghost {
+  color: var(--derby);
+  border-color: rgba(127, 46, 69, 0.40);
+}
+
+.tfl .hero-actions .btn-ghost:hover {
+  border-color: var(--maroon);
+  background: rgba(127, 46, 69, 0.08);
+}
+
+/* Dark theme: ghost btn uses peach border/text */
+.tfl[data-theme="dark"] .hero-actions .btn-ghost {
   color: var(--peach);
   border-color: rgba(244, 238, 233, .45);
 }
 
-.tfl .hero-actions .btn-ghost:hover {
+.tfl[data-theme="dark"] .hero-actions .btn-ghost:hover {
   border-color: var(--peach);
   background: rgba(244, 238, 233, 0.14);
 }
+
+
+/* ══════════════════════════════════════════
+   SCI-FI THREAD — fiber-optic signal system
+   Three layers: ghost rail · base filament · laser pulse
+   ══════════════════════════════════════════ */
 
 .tfl .thread {
   position: absolute;
@@ -527,94 +602,113 @@
   overflow: visible;
 }
 
+.tfl .thread-rail {
+  /* Ghost underlayer — barely visible parallel track */
+  fill: none;
+  stroke: url(#thread-gradient-rail);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 6 14;
+  animation:
+    tfl-draw-rail 3.2s 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-rail-breathe 9s 3.4s ease-in-out infinite;
+}
+
 .tfl .thread-base {
+  /* Main filament — drawn from left to right on load */
   fill: none;
   stroke: url(#thread-gradient-main);
-  stroke-width: 1.4px;
+  stroke-width: 1.2px;
   stroke-linecap: round;
-  opacity: 0.65;
+  opacity: 0;
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
   animation:
-    tfl-draw 2.8s 0.2s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-    tfl-thread-breathe 7s 3s ease-in-out infinite alternate;
+    tfl-draw 2.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-filament-breathe 8s 3.1s ease-in-out infinite;
 }
 
 .tfl .thread-glow-path {
+  /* Soft glow envelope under the filament */
   fill: none;
-  stroke: var(--pink);
-  stroke-width: 3.5px;
+  stroke: url(#thread-gradient-glow);
+  stroke-width: 6px;
   stroke-linecap: round;
   opacity: 0;
-  filter: blur(3px);
+  filter: blur(4px);
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
   animation:
-    tfl-draw 2.8s 0.2s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-    tfl-glow-breathe 7s 3s ease-in-out infinite alternate;
+    tfl-draw 2.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-glow-pulse 8s 3.1s ease-in-out infinite;
 }
 
 .tfl .thread-pulse {
+  /* Primary laser signal — travels the full length */
   fill: none;
-  stroke: var(--peach);
-  stroke-width: 2.2px;
+  stroke: url(#thread-gradient-signal);
+  stroke-width: 1.8px;
   stroke-linecap: round;
   opacity: 0;
-  stroke-dasharray: 130 1000;
+  stroke-dasharray: 80 1000;
   stroke-dashoffset: 1000;
-  filter: drop-shadow(0 0 4px rgba(244, 238, 233, 0.95)) drop-shadow(0 0 10px rgba(211, 161, 171, 0.65));
-  animation: tfl-pulse-travel 6.5s 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 240, 245, 0.90))
+    drop-shadow(0 0 8px rgba(211, 161, 171, 0.70))
+    drop-shadow(0 0 18px rgba(211, 161, 171, 0.35));
+  animation: tfl-signal-travel 5.5s 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
+.tfl .thread-pulse2 {
+  /* Secondary laser — shorter, delayed, creates stagger effect */
+  fill: none;
+  stroke: url(#thread-gradient-signal);
+  stroke-width: 1.2px;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 44 1000;
+  stroke-dashoffset: 1000;
+  filter:
+    drop-shadow(0 0 2px rgba(255, 240, 245, 0.70))
+    drop-shadow(0 0 6px rgba(211, 161, 171, 0.50));
+  animation: tfl-signal-travel 5.5s 4.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ── Draw animations ───────────────────── */
 @keyframes tfl-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
+  to { stroke-dashoffset: 0; opacity: 0.72; }
 }
 
-@keyframes tfl-thread-breathe {
-  0% {
-    opacity: 0.55;
-    stroke-width: 1.3px;
-  }
-  50% {
-    opacity: 0.8;
-    stroke-width: 1.6px;
-  }
-  100% {
-    opacity: 0.55;
-    stroke-width: 1.3px;
-  }
+@keyframes tfl-draw-rail {
+  0%   { opacity: 0; }
+  100% { opacity: 0.18; }
 }
 
-@keyframes tfl-glow-breathe {
-  0% {
-    opacity: 0.12;
-  }
-  50% {
-    opacity: 0.32;
-  }
-  100% {
-    opacity: 0.12;
-  }
+/* ── Idle breathe animations ──────────── */
+@keyframes tfl-filament-breathe {
+  0%, 100% { opacity: 0.55; stroke-width: 1.1px; }
+  50%       { opacity: 0.80; stroke-width: 1.4px; }
 }
 
-@keyframes tfl-pulse-travel {
-  0% {
-    stroke-dashoffset: 1000;
-    opacity: 0;
-  }
-  4% {
-    opacity: 0.95;
-  }
-  85% {
-    opacity: 0.95;
-  }
-  98%, 100% {
-    stroke-dashoffset: -130;
-    opacity: 0;
-  }
+@keyframes tfl-rail-breathe {
+  0%, 100% { opacity: 0.12; }
+  50%       { opacity: 0.24; }
 }
+
+@keyframes tfl-glow-pulse {
+  0%, 100% { opacity: 0.08; }
+  50%       { opacity: 0.22; }
+}
+
+/* ── Signal travel ───────────────────── */
+@keyframes tfl-signal-travel {
+  0%       { stroke-dashoffset: 1020; opacity: 0; }
+  3%       { opacity: 1; }
+  88%      { opacity: 1; }
+  100%     { stroke-dashoffset: -100; opacity: 0; }
+}
+
 
 
 .tfl .stats {
@@ -1622,8 +1716,18 @@
 }
 
 
+/* Light theme: subtle maroon frost nav pill */
 .tfl .navlinks,
 .tfl .icon-btn {
+  background: rgba(127, 46, 69, .06);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5)
+}
+
+/* Dark theme: peach frost nav pill */
+.tfl[data-theme="dark"] .navlinks,
+.tfl[data-theme="dark"] .icon-btn {
   background: rgba(244, 238, 233, .08);
   -webkit-backdrop-filter: blur(14px) saturate(150%);
   backdrop-filter: blur(14px) saturate(150%);

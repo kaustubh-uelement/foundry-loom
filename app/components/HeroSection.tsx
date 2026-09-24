@@ -23,9 +23,12 @@ export default function HeroSection({
   theme,
   onToggleTheme,
 }: HeroSectionProps) {
-  const pathBaseRef = useRef<SVGPathElement | null>(null);
-  const pathGlowRef = useRef<SVGPathElement | null>(null);
-  const pathPulseRef = useRef<SVGPathElement | null>(null);
+  // Five path refs for the layered fiber-optic thread system
+  const pathRailRef   = useRef<SVGPathElement | null>(null); // ghost rail (dashed)
+  const pathGlowRef   = useRef<SVGPathElement | null>(null); // wide soft glow
+  const pathBaseRef   = useRef<SVGPathElement | null>(null); // main filament
+  const pathPulseRef  = useRef<SVGPathElement | null>(null); // primary laser signal
+  const pathPulse2Ref = useRef<SVGPathElement | null>(null); // secondary laser signal
 
   useEffect(() => {
     let animId: number;
@@ -96,8 +99,6 @@ export default function HeroSection({
         + mY * 0.25;
 
       // ── CP2: tangent INTO the midpoint — also defines the S reflection ─
-      // Offset below-and-left of mid so the SVG S command reflects it
-      // above-and-right → creating the inflection that makes the S-curve
       const cp2x = midX - 178
         + Math.sin(t * 0.14 + 2.2) * 18;
       const cp2y = midY + 78
@@ -115,7 +116,6 @@ export default function HeroSection({
         + mY * 0.55;
 
       // M start → C cp1 cp2 mid → S cp3 end
-      // The S command auto-mirrors cp2 around mid → C1 continuity, zero kinks
       const d =
         `M -20 ${startY.toFixed(1)} ` +
         `C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ` +
@@ -124,9 +124,12 @@ export default function HeroSection({
         `S ${cp3x.toFixed(1)} ${cp3y.toFixed(1)}, ` +
         `${endX.toFixed(1)} ${endY.toFixed(1)}`;
 
-      if (pathBaseRef.current) pathBaseRef.current.setAttribute('d', d);
-      if (pathGlowRef.current) pathGlowRef.current.setAttribute('d', d);
-      if (pathPulseRef.current) pathPulseRef.current.setAttribute('d', d);
+      // All five paths share the same spline — layers differentiate visually
+      if (pathRailRef.current)   pathRailRef.current.setAttribute('d', d);
+      if (pathGlowRef.current)   pathGlowRef.current.setAttribute('d', d);
+      if (pathBaseRef.current)   pathBaseRef.current.setAttribute('d', d);
+      if (pathPulseRef.current)  pathPulseRef.current.setAttribute('d', d);
+      if (pathPulse2Ref.current) pathPulse2Ref.current.setAttribute('d', d);
 
       animId = requestAnimationFrame(animate);
     };
@@ -143,48 +146,10 @@ export default function HeroSection({
 
   return (
     <div className="wrap hero-shell">
-      {/* Hidden SVG filter definition for liquid glass effect */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}
-      >
-        <defs>
-          <filter id="glass-filter-hero" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.65 0.75"
-              numOctaves="1"
-              seed="2"
-              result="noise"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale="6"
-              xChannelSelector="R"
-              yChannelSelector="G"
-              result="displaced"
-            />
-            <feGaussianBlur stdDeviation="18" in="displaced" result="blurred" />
-          </filter>
-        </defs>
-      </svg>
-
       <header className="hero" id="top" ref={heroRef}>
-        {/* Glass surface filter overlay — applies the SVG filter as backdrop */}
-        <svg
-          className="glass-surface__filter"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <filter id="glass-filter-hero-surface" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65 0.75" numOctaves="1" seed="2" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-            <feGaussianBlur stdDeviation="18" in="displaced" result="blurred" />
-          </filter>
-        </svg>
         <div className="weave" aria-hidden="true" />
+
+        {/* ── Sci-fi fiber-optic thread system ───────────────────────── */}
         <svg
           className="thread"
           viewBox="0 0 1200 700"
@@ -192,40 +157,82 @@ export default function HeroSection({
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="thread-gradient-main" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="var(--pink)" stopOpacity="0.4" />
-              <stop offset="35%" stopColor="var(--peach)" stopOpacity="0.8" />
-              <stop offset="70%" stopColor="var(--pink)" stopOpacity="0.65" />
-              <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.5" />
+            {/* Rail — barely-there dashed track ghost */}
+            <linearGradient id="thread-gradient-rail" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.08" />
+              <stop offset="50%"  stopColor="var(--peach)" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="var(--pink)"  stopOpacity="0.06" />
             </linearGradient>
-            <filter id="thread-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
+
+            {/* Main filament — the resting fiber */}
+            <linearGradient id="thread-gradient-main" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.30" />
+              <stop offset="30%"  stopColor="var(--peach)" stopOpacity="0.70" />
+              <stop offset="65%"  stopColor="var(--pink)"  stopOpacity="0.55" />
+              <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.40" />
+            </linearGradient>
+
+            {/* Glow envelope — wide blurred halo under the filament */}
+            <linearGradient id="thread-gradient-glow" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.00" />
+              <stop offset="40%"  stopColor="var(--pink)"  stopOpacity="0.60" />
+              <stop offset="70%"  stopColor="var(--peach)" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.10" />
+            </linearGradient>
+
+            {/* Signal — bright peach-white laser core */}
+            <linearGradient id="thread-gradient-signal" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="#FFFFFF"      stopOpacity="0.00" />
+              <stop offset="20%"  stopColor="var(--peach)" stopOpacity="0.90" />
+              <stop offset="55%"  stopColor="#FFFFFF"      stopOpacity="1.00" />
+              <stop offset="80%"  stopColor="var(--pink)"  stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#FFFFFF"      stopOpacity="0.00" />
+            </linearGradient>
           </defs>
+
+          {/* Layer 1 — ghost rail dashes */}
+          <path
+            ref={pathRailRef}
+            className="thread-rail"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
+          />
+
+          {/* Layer 2 — wide soft glow (blurred) */}
           <path
             ref={pathGlowRef}
             className="thread-glow-path"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
-            d="M -20 590 C 200 630, 380 540, 560 480 C 740 420, 900 360, 1040 260 C 1180 190, 1180 200, 1220 210"
+            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
+
+          {/* Layer 3 — main filament (crisp) */}
           <path
             ref={pathBaseRef}
             className="thread-base"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
-            d="M -20 590 C 200 630, 380 540, 560 480 C 740 420, 900 360, 1040 260 C 1180 190, 1180 200, 1220 210"
+            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
+
+          {/* Layer 4 — primary laser pulse */}
           <path
             ref={pathPulseRef}
             className="thread-pulse"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
-            d="M -20 590 C 200 630, 380 540, 560 480 C 740 420, 900 360, 1040 260 C 1180 190, 1180 200, 1220 210"
+            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
+          />
+
+          {/* Layer 5 — secondary laser (smaller, delayed) */}
+          <path
+            ref={pathPulse2Ref}
+            className="thread-pulse2"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
         </svg>
 
@@ -253,7 +260,12 @@ export default function HeroSection({
             </div>
           </div>
           <div className="hero-mark glass">
-            <Image src="/logo-light.png" alt="The Foundry Loom monogram" width={360} height={360} />
+            <Image
+              src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
+              alt="The Foundry Loom monogram"
+              width={360}
+              height={360}
+            />
           </div>
         </div>
 
