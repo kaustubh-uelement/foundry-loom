@@ -9,7 +9,8 @@ export default function AboutSection() {
     <section id="about">
       <div className="wrap about">
         <figure className="about-art" style={{ margin: 0 }}>
-          <Image src="/logo-dark.png" alt="The Foundry Loom logo" width={400} height={400} />
+          <Image className="logo-dark-img" src="/logo-dark.png" alt="The Foundry Loom logo" width={400} height={400} />
+          <Image className="logo-light-img" src="/logo-light.png" alt="The Foundry Loom logo" width={400} height={400} />
           <figcaption>One continuous thread, from what you know to where you&apos;re heard.</figcaption>
         </figure>
         <div className="about-copy">
