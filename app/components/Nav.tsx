@@ -34,6 +34,11 @@ export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onTogg
             <a href={href} onClick={onMenuClose}>{label}</a>
           </li>
         ))}
+        <li className="nav-drawer-cta">
+          <a className="btn btn-primary" href="#contact" onClick={onMenuClose}>
+            Contact us
+          </a>
+        </li>
       </ul>
 
       <div className="nav-right">
