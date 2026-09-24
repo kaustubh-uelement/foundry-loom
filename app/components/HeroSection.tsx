@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { STATS } from '@/app/lib/data';
 import Arrow from './Arrow';
@@ -22,6 +23,100 @@ export default function HeroSection({
   theme,
   onToggleTheme,
 }: HeroSectionProps) {
+  const pathBaseRef = useRef<SVGPathElement | null>(null);
+  const pathGlowRef = useRef<SVGPathElement | null>(null);
+  const pathPulseRef = useRef<SVGPathElement | null>(null);
+
+  useEffect(() => {
+    let animId: number;
+    let startTime: number | null = null;
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+    let targetMouseX = 0.5;
+    let targetMouseY = 0.5;
+
+    const heroEl = heroRef.current;
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!heroEl) return;
+      const rect = heroEl.getBoundingClientRect();
+      targetMouseX = (e.clientX - rect.left) / rect.width;
+      targetMouseY = (e.clientY - rect.top) / rect.height;
+    };
+
+    const handleMouseLeave = () => {
+      targetMouseX = 0.5;
+      targetMouseY = 0.5;
+    };
+
+    if (heroEl) {
+      heroEl.addEventListener('mousemove', handleMouseMove, { passive: true });
+      heroEl.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    }
+
+    const animate = (time: number) => {
+      if (!startTime) startTime = time;
+      const t = (time - startTime) / 1000;
+
+      // Smooth mouse lerp
+      mouseX += (targetMouseX - mouseX) * 0.04;
+      mouseY += (targetMouseY - mouseY) * 0.04;
+      const mY = (mouseY - 0.5) * 30;
+      const mX = (mouseX - 0.5) * 20;
+
+      // --- Single smooth cubic Bézier (M → C with ONE control-point pair) ---
+      // Anchor points that drift very slowly so the overall arc changes organically
+      const startY = 595
+        + Math.sin(t * 0.31) * 8
+        + Math.cos(t * 0.17) * 5;
+
+      const endY = 200
+        + Math.sin(t * 0.28 + 1.4) * 10
+        + Math.cos(t * 0.19) * 6;
+
+      const endX = 1220
+        + Math.cos(t * 0.23) * 6;
+
+      // Control point 1 – pulls the curve up/down near the left quarter
+      const cp1x = 370
+        + Math.cos(t * 0.22 + 0.8) * 18
+        + mX * 0.4;
+      const cp1y = 560
+        + Math.sin(t * 0.37 + 0.4) * 22
+        + Math.cos(t * 0.19 + 2.1) * 12
+        + mY * 0.5;
+
+      // Control point 2 – pulls near the right quarter; kept tangentially coherent
+      const cp2x = 860
+        + Math.sin(t * 0.26 + 1.6) * 18
+        + mX * 0.6;
+      const cp2y = 340
+        + Math.cos(t * 0.33 + 0.9) * 24
+        + Math.sin(t * 0.18 + 2.8) * 12
+        + mY * 0.7;
+
+      const d =
+        `M -20 ${startY.toFixed(1)} ` +
+        `C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ` +
+        `${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ` +
+        `${endX.toFixed(1)} ${endY.toFixed(1)}`;
+
+      if (pathBaseRef.current) pathBaseRef.current.setAttribute('d', d);
+      if (pathGlowRef.current) pathGlowRef.current.setAttribute('d', d);
+      if (pathPulseRef.current) pathPulseRef.current.setAttribute('d', d);
+
+      animId = requestAnimationFrame(animate);
+    };
+
+    animId = requestAnimationFrame(animate);
+    return () => {
+      cancelAnimationFrame(animId);
+      if (heroEl) {
+        heroEl.removeEventListener('mousemove', handleMouseMove);
+        heroEl.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [heroRef]);
+
   return (
     <div className="wrap hero-shell">
       {/* Hidden SVG filter definition for liquid glass effect */}
@@ -66,8 +161,48 @@ export default function HeroSection({
           </filter>
         </svg>
         <div className="weave" aria-hidden="true" />
-        <svg className="thread" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M-20 600 C 180 640, 340 520, 520 470 S 820 380, 900 250 S 1040 60, 1220 90" />
+        <svg
+          className="thread"
+          viewBox="0 0 1200 700"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="thread-gradient-main" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="var(--pink)" stopOpacity="0.4" />
+              <stop offset="35%" stopColor="var(--peach)" stopOpacity="0.8" />
+              <stop offset="70%" stopColor="var(--pink)" stopOpacity="0.65" />
+              <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.5" />
+            </linearGradient>
+            <filter id="thread-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            ref={pathGlowRef}
+            className="thread-glow-path"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 590 C 200 630, 380 540, 560 480 C 740 420, 900 360, 1040 260 C 1180 190, 1180 200, 1220 210"
+          />
+          <path
+            ref={pathBaseRef}
+            className="thread-base"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 590 C 200 630, 380 540, 560 480 C 740 420, 900 360, 1040 260 C 1180 190, 1180 200, 1220 210"
+          />
+          <path
+            ref={pathPulseRef}
+            className="thread-pulse"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 590 C 200 630, 380 540, 560 480 C 740 420, 900 360, 1040 260 C 1180 190, 1180 200, 1220 210"
+          />
         </svg>
 
         <Nav
@@ -88,7 +223,7 @@ export default function HeroSection({
             </p>
             <div className="hero-actions">
               <a className="btn btn-light" href="#contact">
-                Book a call <span className="dot"><Arrow /></span>
+                Contact us <span className="dot"><Arrow /></span>
               </a>
               <a className="btn btn-ghost" href="#work">See our work</a>
             </div>

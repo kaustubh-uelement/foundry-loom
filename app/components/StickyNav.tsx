@@ -43,9 +43,8 @@ export default function StickyNav({ show, theme, onToggleTheme }: StickyNavProps
           className="btn btn-primary"
           href="#contact"
           tabIndex={show ? 0 : -1}
-          style={{ padding: '10px 20px' }}
         >
-          Book a call
+          Contact us
         </a>
       </div>
     </div>

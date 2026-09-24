@@ -125,7 +125,6 @@ export default function RsvpModal({ event, onClose }: RsvpModalProps) {
             <button
               className="btn btn-primary"
               type="submit"
-              style={{ padding: '10px 22px' }}
               disabled={rsvpState.kind === 'sending'}
             >
               {rsvpState.kind === 'sending' ? 'Saving\u2026' : 'Save my seat'}

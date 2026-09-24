@@ -221,7 +221,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
       <div className={`sticky${stickyOn ? ' show' : ''}`} aria-hidden={!stickyOn}>
         <a className="brand" href="#top" tabIndex={stickyOn ? 0 : -1}><img src={logoDark} alt="" /><span>The Foundry Loom</span></a>
         <ul>{NAV.slice(0, 5).map(([h, l]) => <li key={h}><a href={h} tabIndex={stickyOn ? 0 : -1}>{l}</a></li>)}</ul>
-        <a className="btn btn-primary" href="#contact" tabIndex={stickyOn ? 0 : -1} style={{ padding: '10px 20px' }}>Book a call</a>
+        <a className="btn btn-primary" href="#contact" tabIndex={stickyOn ? 0 : -1}>Contact us</a>
       </div>
 
       {/* HERO */}
@@ -244,9 +244,18 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
               <feGaussianBlur stdDeviation="18" in="displaced" result="blurred" />
             </filter>
           </svg>
-          <div className="weave" aria-hidden="true" />
           <svg className="thread" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M-20 600 C 180 640, 340 520, 520 470 S 820 380, 900 250 S 1040 60, 1220 90" />
+            <defs>
+              <linearGradient id="thread-gradient-jsx" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="var(--pink)" stopOpacity="0.4" />
+                <stop offset="35%" stopColor="var(--peach)" stopOpacity="0.8" />
+                <stop offset="70%" stopColor="var(--pink)" stopOpacity="0.65" />
+                <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.5" />
+              </linearGradient>
+            </defs>
+            <path className="thread-glow-path" pathLength="1000" vectorEffect="non-scaling-stroke" d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 210" />
+            <path className="thread-base" pathLength="1000" vectorEffect="non-scaling-stroke" d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 210" style={{ stroke: 'url(#thread-gradient-jsx)' }} />
+            <path className="thread-pulse" pathLength="1000" vectorEffect="non-scaling-stroke" d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 210" />
           </svg>
           <nav className="nav" aria-label="Main">
             <a className="brand" href="#top"><img src={logoLight} alt="" /><span>The Foundry Loom</span></a>
@@ -256,7 +265,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
             <div className="nav-right">
               <a className="icon-btn" href={SITE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Icon name="linkedin" size={16} /></a>
               <a className="icon-btn" href={SITE.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Icon name="youtube" size={17} /></a>
-              <a className="btn btn-light cta-top" href="#contact" style={{ padding: '10px 20px' }}>Book a consultation</a>
+              <a className="btn btn-light cta-top" href="#contact">Contact us</a>
               <button className="icon-btn menu-toggle" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="tfl-navlinks" onClick={() => setMenuOpen(!menuOpen)}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">{menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M3 7h18M3 12h18M3 17h18" />}</svg>
               </button>
@@ -267,7 +276,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
               <h1>Forged in substance.<em>Woven into influence.</em></h1>
               <p className="intro">We build the personal brands of founders, investors and domain experts, so the people who matter know what you know.</p>
               <div className="hero-actions">
-                <a className="btn btn-light" href="#contact">Book a call <span className="dot"><Arrow /></span></a>
+                <a className="btn btn-light" href="#contact">Contact us <span className="dot"><Arrow /></span></a>
                 <a className="btn btn-ghost" href="#work">See our work</a>
               </div>
             </div>
@@ -468,7 +477,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
             <p className={note(rsvpState)} role="status" aria-live="polite">{rsvpState.msg}</p>
             <div className="actions">
               <button className="btn btn-ghost" type="button" onClick={() => setRsvpFor(null)}>Cancel</button>
-              <button className="btn btn-primary" type="submit" style={{ padding: '10px 22px' }} disabled={rsvpState.kind === 'sending'}>{rsvpState.kind === 'sending' ? 'Saving\u2026' : 'Save my seat'}</button>
+              <button className="btn btn-primary" type="submit" disabled={rsvpState.kind === 'sending'}>{rsvpState.kind === 'sending' ? 'Saving\u2026' : 'Save my seat'}</button>
             </div>
           </form>
         )}
@@ -504,15 +513,24 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 .tfl .kicker{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;font-weight:600;color:var(--accent);margin-bottom:14px}
 .tfl .kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--ink)}
 .tfl .lede{font-size:1.08rem;max-width:60ch;color:var(--muted)}
-.tfl .btn{display:inline-flex;align-items:center;gap:12px;font:600 .95rem var(--sans);border-radius:999px;padding:8px 8px 8px 22px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:background .2s,color .2s}
-.tfl .btn .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
-.tfl .btn-primary{background:var(--maroon);color:var(--peach)}
+.tfl .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:48px;min-height:48px;max-height:48px;box-sizing:border-box;font:500 .95rem/1 var(--sans);border-radius:999px;padding:0 22px;border:1px solid transparent;cursor:pointer;text-decoration:none;white-space:nowrap;flex-shrink:0;letter-spacing:-.01em;user-select:none;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .15s ease}
+.tfl .btn:active{transform:scale(.98)}
+.tfl .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.tfl .btn:has(.dot),.tfl .hero-actions .btn-light,.tfl .about-copy .btn-primary,.tfl form .btn-primary:has(.dot){padding:0 6px 0 22px}
+.tfl .btn .dot{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;transition:transform .2s ease}
+.tfl .btn:hover .dot{transform:translateX(2px)}
+.tfl .btn-primary{background:var(--maroon);color:var(--peach);border-color:transparent}
 .tfl .btn-primary .dot{background:var(--peach);color:var(--maroon)}
 .tfl .btn-primary:hover{background:var(--maroon-deep)}
-.tfl .btn-light{background:var(--peach);color:var(--derby)}
+.tfl .btn-light{background:var(--peach);color:var(--derby);border-color:transparent}
 .tfl .btn-light .dot{background:var(--maroon);color:var(--peach)}
-.tfl .btn-ghost{background:transparent;color:var(--ink);border-color:var(--cotton);padding:10px 22px}
-.tfl .btn-ghost:hover{border-color:var(--ink)}
+.tfl .btn-light:hover{background:#ffffff}
+.tfl .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--cotton);padding:0 22px}
+.tfl .btn-ghost:hover{border-color:var(--ink);background:rgba(68,41,12,.04)}
+.tfl[data-theme="dark"] .btn-ghost{color:var(--ink);border-color:rgba(244,238,233,.35)}
+.tfl[data-theme="dark"] .btn-ghost:hover{border-color:var(--ink);background:rgba(244,238,233,.08)}
+.tfl .hero-actions .btn-ghost{color:var(--peach);border-color:rgba(244,238,233,.45)}
+.tfl .hero-actions .btn-ghost:hover{border-color:var(--peach);background:rgba(244,238,233,.14)}
 .tfl section{padding:96px 0}
 /* ---------- HERO ---------- */
 .tfl .hero-shell{padding:clamp(10px,1.6vh,18px) 0;height:100vh;height:100dvh;box-sizing:border-box;display:flex;flex-direction:column;background-color:var(--bg);background-image:repeating-linear-gradient(90deg, rgba(68,41,12,.10) 0 1px, transparent 1px 28px),repeating-linear-gradient(0deg, rgba(68,41,12,.10) 0 1px, transparent 1px 28px)}
@@ -544,11 +562,14 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 .tfl .hero-mark{justify-self:end;width:clamp(170px,24vh + 3vw,290px);max-height:100%;position:relative}
 .tfl .hero-mark img{width:100%;opacity:.95}
 .tfl .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.tfl .hero-actions .btn-ghost{color:var(--peach);border-color:rgba(244,238,233,.45)}
-.tfl .thread{position:absolute;left:0;right:0;top:0;height:100%;pointer-events:none}
-.tfl .thread path{fill:none;stroke:var(--pink);stroke-width:1.4;opacity:.55;stroke-dasharray:2400;stroke-dashoffset:2400;animation:tfl-draw 3.2s .3s cubic-bezier(.6,.1,.2,1) forwards}
+.tfl .thread{position:absolute;left:0;right:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.tfl .thread-base{fill:none;stroke-width:1.4px;stroke-linecap:round;opacity:.65;stroke-dasharray:1000;stroke-dashoffset:1000;animation:tfl-draw 2.8s .2s cubic-bezier(.25,1,.5,1) forwards,tfl-thread-breathe 7s 3s ease-in-out infinite alternate}
+.tfl .thread-glow-path{fill:none;stroke:var(--pink);stroke-width:3.5px;stroke-linecap:round;opacity:0;filter:blur(3px);stroke-dasharray:1000;stroke-dashoffset:1000;animation:tfl-draw 2.8s .2s cubic-bezier(.25,1,.5,1) forwards,tfl-glow-breathe 7s 3s ease-in-out infinite alternate}
+.tfl .thread-pulse{fill:none;stroke:var(--peach);stroke-width:2.2px;stroke-linecap:round;opacity:0;stroke-dasharray:130 1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 4px rgba(244,238,233,.95)) drop-shadow(0 0 10px rgba(211,161,171,.65));animation:tfl-pulse-travel 6.5s 2.4s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes tfl-draw{to{stroke-dashoffset:0}}
-@media (prefers-reduced-motion: reduce){.tfl .thread path{animation:none;stroke-dashoffset:0}}
+@keyframes tfl-thread-breathe{0%,100%{opacity:.55;stroke-width:1.3px}50%{opacity:.8;stroke-width:1.6px}}
+@keyframes tfl-glow-breathe{0%,100%{opacity:.12}50%{opacity:.32}}
+@keyframes tfl-pulse-travel{0%{stroke-dashoffset:1000;opacity:0}4%{opacity:.95}85%{opacity:.95}98%,100%{stroke-dashoffset:-130;opacity:0}}
 .tfl .stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.8vw,24px);padding:0 clamp(20px,2.5vw,40px) clamp(12px,1.8vh,24px);flex-shrink:0}
 .tfl .stat{border-top:2px solid rgba(244,238,233,.35);padding-top:clamp(8px,1.1vh,14px);position:relative}
 .tfl .stat::before{content:"";position:absolute;top:-2px;left:0;height:2px;width:0;background:var(--peach);animation:tfl-fill 1.4s 1.2s ease forwards}

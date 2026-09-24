@@ -50,8 +50,8 @@ export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onTogg
           <Icon name="youtube" size={17} />
         </a>
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-        <a className="btn btn-light cta-top" href="#contact" style={{ padding: '10px 20px' }}>
-          Book a consultation
+        <a className="btn btn-light cta-top" href="#contact">
+          Contact us
         </a>
         <button
           className="icon-btn menu-toggle"

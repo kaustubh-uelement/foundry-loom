@@ -133,57 +133,111 @@
 .tfl .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  font: 500 .95rem var(--sans);
+  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  box-sizing: border-box;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1;
   border-radius: 999px;
-  padding: 8px 8px 8px 22px;
+  padding: 0 22px;
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
-  transition: background .2s, color .2s
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -0.01em;
+  user-select: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.tfl .btn:active {
+  transform: scale(0.98);
+}
+
+.tfl .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tfl .btn:has(.dot),
+.tfl .hero-actions .btn-light,
+.tfl .about-copy .btn-primary,
+.tfl form .btn-primary:has(.dot) {
+  padding: 0 6px 0 22px;
 }
 
 .tfl .btn .dot {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   border-radius: 50%;
   display: grid;
-  place-items: center
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.tfl .btn:hover .dot {
+  transform: translateX(2px);
 }
 
 .tfl .btn-primary {
   background: var(--maroon);
-  color: var(--peach)
+  color: var(--peach);
+  border-color: transparent;
 }
 
 .tfl .btn-primary .dot {
   background: var(--peach);
-  color: var(--maroon)
+  color: var(--maroon);
 }
 
 .tfl .btn-primary:hover {
-  background: var(--maroon-deep)
+  background: var(--maroon-deep);
 }
 
 .tfl .btn-light {
   background: var(--peach);
-  color: var(--derby)
+  color: var(--derby);
+  border-color: transparent;
 }
 
 .tfl .btn-light .dot {
   background: var(--maroon);
-  color: var(--peach)
+  color: var(--peach);
+}
+
+.tfl .btn-light:hover {
+  background: #ffffff;
 }
 
 .tfl .btn-ghost {
   background: transparent;
   color: var(--ink);
-  border-color: var(--cotton);
-  padding: 10px 22px
+  border: 1px solid var(--cotton);
+  padding: 0 22px;
 }
 
 .tfl .btn-ghost:hover {
-  border-color: var(--ink)
+  border-color: var(--ink);
+  background: rgba(68, 41, 12, 0.04);
+}
+
+.tfl[data-theme="dark"] .btn-ghost {
+  color: var(--ink);
+  border-color: rgba(244, 238, 233, 0.35);
+}
+
+.tfl[data-theme="dark"] .btn-ghost:hover {
+  border-color: var(--ink);
+  background: rgba(244, 238, 233, 0.08);
 }
 
 .tfl section {
@@ -415,7 +469,12 @@
 
 .tfl .hero-actions .btn-ghost {
   color: var(--peach);
-  border-color: rgba(244, 238, 233, .45)
+  border-color: rgba(244, 238, 233, .45);
+}
+
+.tfl .hero-actions .btn-ghost:hover {
+  border-color: var(--peach);
+  background: rgba(244, 238, 233, 0.14);
 }
 
 .tfl .thread {
@@ -423,33 +482,102 @@
   left: 0;
   right: 0;
   top: 0;
+  width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  overflow: visible;
 }
 
-.tfl .thread path {
+.tfl .thread-base {
+  fill: none;
+  stroke: url(#thread-gradient-main);
+  stroke-width: 1.4px;
+  stroke-linecap: round;
+  opacity: 0.65;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw 2.8s 0.2s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+    tfl-thread-breathe 7s 3s ease-in-out infinite alternate;
+}
+
+.tfl .thread-glow-path {
   fill: none;
   stroke: var(--pink);
-  stroke-width: 1.4;
-  opacity: .55;
-  stroke-dasharray: 2400;
-  stroke-dashoffset: 2400;
-  animation: tfl-draw 3.2s .3s cubic-bezier(.6, .1, .2, 1) forwards
+  stroke-width: 3.5px;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: blur(3px);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw 2.8s 0.2s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+    tfl-glow-breathe 7s 3s ease-in-out infinite alternate;
+}
+
+.tfl .thread-pulse {
+  fill: none;
+  stroke: var(--peach);
+  stroke-width: 2.2px;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 130 1000;
+  stroke-dashoffset: 1000;
+  filter: drop-shadow(0 0 4px rgba(244, 238, 233, 0.95)) drop-shadow(0 0 10px rgba(211, 161, 171, 0.65));
+  animation: tfl-pulse-travel 6.5s 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes tfl-draw {
   to {
-    stroke-dashoffset: 0
+    stroke-dashoffset: 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tfl .thread path {
-    animation: none;
-    stroke-dashoffset: 0
+@keyframes tfl-thread-breathe {
+  0% {
+    opacity: 0.55;
+    stroke-width: 1.3px;
+  }
+  50% {
+    opacity: 0.8;
+    stroke-width: 1.6px;
+  }
+  100% {
+    opacity: 0.55;
+    stroke-width: 1.3px;
   }
 }
+
+@keyframes tfl-glow-breathe {
+  0% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.32;
+  }
+  100% {
+    opacity: 0.12;
+  }
+}
+
+@keyframes tfl-pulse-travel {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.95;
+  }
+  98%, 100% {
+    stroke-dashoffset: -130;
+    opacity: 0;
+  }
+}
+
 
 .tfl .stats {
   position: relative;
@@ -1391,12 +1519,57 @@
 }
 
 .tfl .glass {
-  background: rgba(244, 238, 233, .10);
-  border: 1px solid rgba(244, 238, 233, .26);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22)
+  /* Translucent pink-tinted base */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.13) 0%,
+      rgba(211, 120, 145, 0.08) 50%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  border-right-color:  rgba(255, 255, 255, 0.10);
+
+  /* Apple-grade frost: strong blur + vivid colour pop */
+  -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(1.08);
+          backdrop-filter: blur(32px) saturate(180%) brightness(1.08);
+
+  /* Layered depth: inner rim light on top, soft shadow below, ambient glow */
+  box-shadow:
+    inset 0 1.5px 0     rgba(255, 255, 255, 0.42),   /* top highlight rim   */
+    inset 0 -1px  0     rgba(100,  30,  55, 0.18),   /* bottom depth edge   */
+    inset 1px  0  0     rgba(255, 255, 255, 0.12),   /* left rim catch      */
+    inset -1px 0  0     rgba(100,  30,  55, 0.10),   /* right depth edge    */
+    0 2px  6px  -1px    rgba(0,    0,   0,  0.14),   /* close shadow        */
+    0 12px 32px -6px    rgba(0,    0,   0,  0.22),   /* mid shadow          */
+    0 0    0    1px     rgba(255, 255, 255, 0.06);   /* outer glow hairline */
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden
 }
+
+/* Noise / grain layer — exactly like Apple's visionOS glass texture */
+.tfl .glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay
+}
+
+/* Make sure child content sits above the noise grain */
+.tfl .glass > * {
+  position: relative;
+  z-index: 1
+}
+
 
 .tfl .navlinks,
 .tfl .icon-btn {
@@ -1423,21 +1596,66 @@
   place-items: center;
   padding: clamp(28px, 3.2vw, 42px);
   position: relative;
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1.5px solid rgba(211, 161, 171, 0.45) !important;
-  -webkit-backdrop-filter: blur(3px) saturate(120%) !important;
-  backdrop-filter: blur(3px) saturate(120%) !important;
+  /* Gradient base — catches light at top-left like a curved glass sphere */
+  background:
+    linear-gradient(
+      140deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(211, 120, 145, 0.10) 40%,
+      rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
+
+  /* Stronger frost — makes it feel genuinely frosted, not just blurred */
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
+          backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
+
   box-shadow:
-    inset 0 1.5px 0 rgba(255, 210, 220, 0.45),
-    inset 0 -1px 0 rgba(120, 45, 65, 0.28),
-    inset 0 0 24px rgba(211, 161, 171, 0.08),
-    0 8px 32px rgba(31, 20, 10, 0.25) !important;
+    inset 0 2px 0     rgba(255, 255, 255, 0.50),   /* top arc highlight    */
+    inset 0 -1.5px 0  rgba(110,  35,  60, 0.25),   /* bottom depth edge    */
+    inset 1.5px 0 0   rgba(255, 255, 255, 0.16),   /* left arc catch       */
+    inset -1.5px 0 0  rgba(110,  35,  60, 0.12),   /* right depth edge     */
+    inset 0 0 40px    rgba(211, 120, 145, 0.10),   /* inner pink glow      */
+    0 4px  12px -2px  rgba(0,    0,   0,  0.20),   /* close shadow         */
+    0 16px 48px -8px  rgba(0,    0,   0,  0.28),   /* deep shadow          */
+    0 0    0    1.5px rgba(255, 255, 255, 0.08) !important; /* outer hairline */
+
   overflow: hidden;
   isolation: isolate
 }
 
+/* Re-enable grain on the circle — adds the fine frosted texture */
 .tfl .hero-mark::before {
-  display: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.032;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay
+}
+
+/* Angular shimmer streak across the top of the circle */
+.tfl .hero-mark::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52%;
+  border-radius: 50% 50% 0 0 / 50% 50% 0 0;
+  background: linear-gradient(
+    175deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.04) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0
 }
 
 .tfl .hero-mark img {
@@ -1445,6 +1663,7 @@
   position: relative;
   z-index: 1
 }
+
 
 .tfl .feature .cap,
 .tfl .persona .cap {
