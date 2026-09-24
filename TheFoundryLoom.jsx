@@ -713,15 +713,16 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 .tfl .inbox th{font-size:.82rem;color:var(--muted);font-weight:600}
 .tfl .table-scroll{overflow-x:auto}
 /* ---------- FOOTER ---------- */
-.tfl footer{background:var(--maroon);color:var(--peach);padding:70px 0 40px;margin-top:40px}
-.tfl .foot{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;align-items:start}
-.tfl .foot img{width:130px}
-.tfl .foot .tag{font:italic 500 2rem/1.15 var(--serif);max-width:16ch;margin-top:18px}
-.tfl .foot h4{font-size:.9rem;margin:0 0 12px;color:var(--pink)}
-.tfl .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.tfl .foot a{text-decoration:none;color:var(--peach)}
-.tfl .foot a:hover{text-decoration:underline}
-.tfl .legal{border-top:1px solid rgba(244,238,233,.2);margin-top:50px;padding-top:22px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.85rem;color:#EAD3D8}
+.tfl footer{background:var(--maroon);color:var(--peach);padding:22px 0 16px;margin-top:20px}
+.tfl .foot{display:grid;grid-template-columns:1.2fr 1.3fr 1fr;gap:28px;align-items:start}
+.tfl .foot img{width:64px;height:auto}
+.tfl .foot .tag{font:italic 500 1.12rem/1.2 var(--serif);max-width:22ch;margin-top:6px;margin-bottom:0}
+.tfl .foot h4{font-size:.84rem;margin:0 0 6px;color:var(--pink);text-transform:capitalize}
+.tfl .foot-explore-cols{display:grid;grid-template-columns:auto auto;gap:24px;align-items:start}
+.tfl .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.tfl .foot a{text-decoration:none;color:var(--peach);font-size:.92rem;transition:opacity .15s ease}
+.tfl .foot a:hover{text-decoration:underline;opacity:.9}
+.tfl .legal{border-top:1px solid rgba(244,238,233,.16);margin-top:16px;padding-top:12px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.8rem;color:#EAD3D8}
 .tfl .theme-toggle{background:none;border:1px solid rgba(244,238,233,.35);color:var(--peach);border-radius:999px;padding:6px 14px;font:500 .85rem var(--sans);cursor:pointer}
 /* ---------- DIALOG ---------- */
 .tfl dialog{border:none;border-radius:var(--r-lg);padding:0;width:min(460px,92vw);background:var(--surface);color:var(--text)}
@@ -786,8 +787,17 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 .tfl[data-theme="dark"] .sticky{background:rgba(31,20,10,.7);border-color:rgba(244,238,233,.14)}
 .tfl[data-theme="dark"] .sticky .brand,.tfl[data-theme="dark"] .sticky ul a{color:var(--peach)}
 
+.tfl .back-to-top{position:fixed;z-index:50;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);right:calc(env(safe-area-inset-right,0px) + 24px);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;border:1px solid rgba(255,255,255,.7);background:rgba(244,238,233,.76);color:var(--ink);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);box-shadow:0 6px 20px rgba(68,41,12,.12),inset 0 1px 0 rgba(255,255,255,.7);opacity:0;visibility:hidden;transform:translateY(14px) scale(.92);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease,visibility 0s .35s}
+.tfl .back-to-top.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease}
+.tfl .back-to-top:hover{background:rgba(244,238,233,.94);border-color:rgba(255,255,255,.95);transform:translateY(-2px) scale(1.06);box-shadow:0 10px 24px rgba(68,41,12,.16),inset 0 1px 0 rgba(255,255,255,.9);color:var(--accent)}
+.tfl .back-to-top svg{display:block;transition:transform .2s ease}
+.tfl .back-to-top:hover svg{transform:translateY(-2px)}
+.tfl .back-to-top:active{transform:translateY(0) scale(.95)}
+.tfl[data-theme="dark"] .back-to-top{background:rgba(31,20,10,.75);border-color:rgba(244,238,233,.22);color:var(--peach);box-shadow:0 6px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.15)}
+.tfl[data-theme="dark"] .back-to-top:hover{background:rgba(45,28,16,.9);border-color:rgba(244,238,233,.4);box-shadow:0 10px 26px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);color:var(--pink)}
+
 @media (max-width:1020px){.tfl .sticky ul{display:none}}
-@media (prefers-reduced-motion: reduce){.tfl .sticky,.tfl .sticky.show{transition:none}}
+@media (prefers-reduced-motion: reduce){.tfl .sticky,.tfl .sticky.show,.tfl .back-to-top,.tfl .back-to-top.show{transition:none}.tfl .back-to-top:hover svg{transform:none}}
 
 .tfl dialog{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);border:1px solid rgba(255,255,255,.7);box-shadow:0 30px 70px rgba(40,15,10,.3)}
 .tfl dialog::backdrop{background:rgba(68,41,12,.3);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
@@ -796,6 +806,8 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .tfl .glass,.tfl .navlinks,.tfl .icon-btn{background:rgba(101,36,56,.85)}
   .tfl .sticky{background:rgba(244,238,233,.97)}
+  .tfl .back-to-top{background:rgba(244,238,233,.96)}
+  .tfl[data-theme="dark"] .back-to-top{background:rgba(31,20,10,.95)}
   .tfl .case{background:#52341b}
   .tfl dialog{background:var(--surface)}
 }
@@ -803,6 +815,7 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
   .tfl .stats{margin:0 14px 14px;padding:18px}
   .tfl .nav-right .icon-btn:not(.menu-toggle){display:none}
   .tfl .brand span{font-size:1.15rem}
+  .tfl .back-to-top{bottom:calc(env(safe-area-inset-bottom,0px) + 16px);right:calc(env(safe-area-inset-right,0px) + 16px);width:42px;height:42px}
 }
 @media (max-width:1020px){.tfl .hero-mark{display:none}}
 `;
