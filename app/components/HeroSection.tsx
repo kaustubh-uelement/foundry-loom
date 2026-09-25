@@ -236,6 +236,13 @@ export default function HeroSection({
           />
         </svg>
 
+        {/* Backdrop for mobile menu within hero */}
+        <div
+          className={`nav-backdrop${menuOpen ? ' open' : ''}`}
+          onClick={onMenuClose}
+          aria-hidden="true"
+        />
+
         <Nav
           menuOpen={menuOpen}
           onMenuToggle={onMenuToggle}

@@ -420,13 +420,41 @@ body {
 
 .tfl .nav {
   position: relative;
-  z-index: 2;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   padding: clamp(10px, 1.8vh, 20px) clamp(20px, 2.5vw, 40px);
   flex-shrink: 0;
+}
+
+.tfl .nav.menu-open {
+  z-index: 100;
+}
+
+.tfl .nav-backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(40, 20, 25, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  z-index: 25;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.tfl[data-theme="dark"] .nav-backdrop {
+  background: rgba(18, 9, 6, 0.65);
+}
+
+.tfl .nav-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* ── Light theme nav: dark maroon text on blush glass ── */
@@ -2276,7 +2304,7 @@ body {
 
 
 /* Light theme: subtle maroon frost nav pill */
-.tfl .navlinks,
+.tfl .navlinks:not(.open),
 .tfl .icon-btn {
   background: rgba(127, 46, 69, .06);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
@@ -2285,7 +2313,7 @@ body {
 }
 
 /* Dark theme: peach frost nav pill */
-.tfl[data-theme="dark"] .navlinks,
+.tfl[data-theme="dark"] .navlinks:not(.open),
 .tfl[data-theme="dark"] .icon-btn {
   background: rgba(244, 238, 233, .08);
   -webkit-backdrop-filter: blur(14px) saturate(150%);
@@ -2947,7 +2975,7 @@ body {
 
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
   .tfl .glass,
-  .tfl .navlinks,
+  .tfl .navlinks:not(.open),
   .tfl .icon-btn {
     background: rgba(101, 36, 56, .85);
   }
@@ -2970,5 +2998,200 @@ body {
 
   .tfl dialog {
     background: var(--surface);
+  }
+}
+
+/* ==========================================================================
+   DECISIVE MOBILE & RESPONSIVE OVERRIDES
+   Guarantees that no preceding desktop rules override mobile layouts.
+   ========================================================================== */
+
+@keyframes tflNavSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1020px) {
+  /* 1. Mobile Menu: must sit above hero-body and thread with an opaque frosted surface */
+  .tfl .nav.menu-open {
+    z-index: 100 !important;
+  }
+
+  .tfl .navlinks.open {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px;
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    left: clamp(12px, 3.5vw, 24px) !important;
+    right: clamp(12px, 3.5vw, 24px) !important;
+    background: #F4EEE9 !important;
+    border: 1px solid rgba(127, 46, 69, 0.25) !important;
+    border-radius: var(--r-lg) !important;
+    z-index: 1000 !important;
+    padding: 16px !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    max-height: calc(100dvh - 90px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    animation: tflNavSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .tfl[data-theme="dark"] .navlinks.open {
+    background: #1C0F0A !important;
+    border-color: rgba(244, 238, 233, 0.22) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85) !important;
+  }
+
+  .tfl .navlinks.open a {
+    display: block !important;
+    padding: 12px 18px !important;
+    border-radius: 12px !important;
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    color: var(--derby) !important;
+    text-decoration: none !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+  }
+
+  .tfl .navlinks.open a:hover,
+  .tfl .navlinks.open a:active {
+    background: rgba(127, 46, 69, 0.10) !important;
+    color: var(--maroon) !important;
+  }
+
+  .tfl[data-theme="dark"] .navlinks.open a {
+    color: var(--peach) !important;
+  }
+
+  .tfl[data-theme="dark"] .navlinks.open a:hover,
+  .tfl[data-theme="dark"] .navlinks.open a:active {
+    background: rgba(244, 238, 233, 0.12) !important;
+    color: #FFFFFF !important;
+  }
+
+  .tfl .nav-drawer-cta {
+    display: block !important;
+    margin-top: 8px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(127, 46, 69, 0.15) !important;
+  }
+
+  .tfl[data-theme="dark"] .nav-drawer-cta {
+    border-top-color: rgba(244, 238, 233, 0.15) !important;
+  }
+
+  .tfl .nav-drawer-cta .btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 0 20px !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    font-size: 1rem !important;
+  }
+
+  /* 2. Circular Monogram Badge: strictly hide on mobile/tablet so it never overlaps hero buttons/content */
+  .tfl .hero-mark {
+    display: none !important;
+  }
+
+  /* 3. Sticky Nav: hide desktop link list on mobile/tablet so content never overflows */
+  .tfl .sticky ul {
+    display: none !important;
+  }
+
+  .tfl .sticky {
+    width: min(1200px, calc(100% - 20px)) !important;
+    max-width: calc(100vw - 20px) !important;
+    box-sizing: border-box !important;
+    padding: 6px 8px 6px 14px !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .tfl .sticky .brand {
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+    gap: 8px !important;
+  }
+
+  .tfl .sticky .brand img {
+    width: 32px !important;
+    height: 32px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .tfl .sticky .brand span {
+    font-size: 0.96rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .tfl .sticky-actions {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .tfl .sticky .btn {
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    padding: 0 14px !important;
+    font-size: 0.84rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .tfl .sticky-theme-toggle {
+    width: 34px !important;
+    height: 34px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .tfl .sticky {
+    width: min(1200px, calc(100% - 16px)) !important;
+    max-width: calc(100vw - 16px) !important;
+    padding: 4px 6px 4px 10px !important;
+    gap: 6px !important;
+  }
+
+  .tfl .sticky .brand img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .tfl .sticky .brand span {
+    font-size: 0.85rem !important;
+  }
+
+  .tfl .sticky .btn {
+    padding: 0 10px !important;
+    font-size: 0.78rem !important;
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+
+  .tfl .sticky-theme-toggle {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .tfl .sticky .brand span {
+    display: none !important;
   }
 }

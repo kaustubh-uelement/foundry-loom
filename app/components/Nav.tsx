@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Image from 'next/image';
 import { NAV, SITE } from '@/app/lib/data';
 import Icon from './Icon';
@@ -15,8 +16,30 @@ interface NavProps {
 }
 
 export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onToggleTheme }: NavProps) {
+  // Close menu on Escape key press
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onMenuClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen, onMenuClose]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
   return (
-    <nav className="nav" aria-label="Main">
+    <nav className={`nav${menuOpen ? ' menu-open' : ''}`} aria-label="Main">
       <a className="brand" href="#top">
         <Image
           src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
