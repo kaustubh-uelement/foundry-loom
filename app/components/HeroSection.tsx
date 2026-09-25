@@ -23,12 +23,10 @@ export default function HeroSection({
   theme,
   onToggleTheme,
 }: HeroSectionProps) {
-  // Five path refs for the layered fiber-optic thread system
+  // Three path refs for the layered fiber-optic thread system
   const pathRailRef   = useRef<SVGPathElement | null>(null); // ghost rail (dashed)
   const pathGlowRef   = useRef<SVGPathElement | null>(null); // wide soft glow
   const pathBaseRef   = useRef<SVGPathElement | null>(null); // main filament
-  const pathPulseRef  = useRef<SVGPathElement | null>(null); // primary laser signal
-  const pathPulse2Ref = useRef<SVGPathElement | null>(null); // secondary laser signal
 
   useEffect(() => {
     let animId: number;
@@ -124,12 +122,10 @@ export default function HeroSection({
         `S ${cp3x.toFixed(1)} ${cp3y.toFixed(1)}, ` +
         `${endX.toFixed(1)} ${endY.toFixed(1)}`;
 
-      // All five paths share the same spline — layers differentiate visually
-      if (pathRailRef.current)   pathRailRef.current.setAttribute('d', d);
-      if (pathGlowRef.current)   pathGlowRef.current.setAttribute('d', d);
-      if (pathBaseRef.current)   pathBaseRef.current.setAttribute('d', d);
-      if (pathPulseRef.current)  pathPulseRef.current.setAttribute('d', d);
-      if (pathPulse2Ref.current) pathPulse2Ref.current.setAttribute('d', d);
+      // Paths share the same spline — layers differentiate visually
+      if (pathRailRef.current) pathRailRef.current.setAttribute('d', d);
+      if (pathGlowRef.current) pathGlowRef.current.setAttribute('d', d);
+      if (pathBaseRef.current) pathBaseRef.current.setAttribute('d', d);
 
       animId = requestAnimationFrame(animate);
     };
@@ -212,24 +208,6 @@ export default function HeroSection({
           <path
             ref={pathBaseRef}
             className="thread-base"
-            pathLength="1000"
-            vectorEffect="non-scaling-stroke"
-            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
-          />
-
-          {/* Layer 4 — primary laser pulse */}
-          <path
-            ref={pathPulseRef}
-            className="thread-pulse"
-            pathLength="1000"
-            vectorEffect="non-scaling-stroke"
-            d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
-          />
-
-          {/* Layer 5 — secondary laser (smaller, delayed) */}
-          <path
-            ref={pathPulse2Ref}
-            className="thread-pulse2"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
             d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"

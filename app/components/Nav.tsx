@@ -74,15 +74,6 @@ export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onTogg
         >
           <Icon name="linkedin" size={16} />
         </a>
-        <a
-          className="icon-btn"
-          href={SITE.youtube}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="YouTube"
-        >
-          <Icon name="youtube" size={17} />
-        </a>
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         <a className="btn btn-light cta-top" href="#contact">
           Contact us

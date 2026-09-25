@@ -5,7 +5,7 @@ export const SITE = {
   phone: '+91 88391 39799',
   phoneHref: 'tel:+918839139799',
   address: 'B12, Kalpataru Crest, LBS Marg, Bhandup West, Mumbai 400078',
-  linkedin: 'https://www.linkedin.com',
+  linkedin: 'https://www.linkedin.com/company/foundary-loom/posts/?feedView=all',
   youtube: 'https://www.youtube.com',
 } as const;
 
@@ -97,7 +97,7 @@ export const EVENTS: Event[] = [
   { id: 'from-feed-to-stage', mon: 'NOV', day: '12', year: '2026', title: 'From feed to stage: getting invited to speak', where: 'Online, Zoom · 60 minutes', seats: 40 },
 ];
 
-export const CHANNELS = ['LinkedIn', 'X', 'YouTube', 'Instagram', 'Pinterest', 'Lead generation'];
+export const CHANNELS = ['LinkedIn', 'X', 'YouTube', 'Instagram', 'Lead generation'];
 export const ROLES = ['Founder or CEO', 'Investor or VC', 'Domain expert or CXO', 'Something else'];
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
