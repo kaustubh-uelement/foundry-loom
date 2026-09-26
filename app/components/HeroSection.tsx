@@ -245,12 +245,26 @@ export default function HeroSection({
             </div>
           </div>
           <div className="hero-mark glass">
-            <Image
-              src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
-              alt="The Foundry Loom monogram"
-              width={360}
-              height={360}
-            />
+            <div className="hero-mark-coin">
+              {/* Side A: rest state (matches current theme) */}
+              <div className="hero-mark-face hero-mark-side-a">
+                <Image
+                  src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
+                  alt="The Foundry Loom monogram"
+                  width={360}
+                  height={360}
+                />
+              </div>
+              {/* Side B: opposite theme appearance (revealed on hover) */}
+              <div className="hero-mark-face hero-mark-side-b">
+                <Image
+                  src={theme === 'dark' ? '/logo-dark.png' : '/logo-light.png'}
+                  alt="The Foundry Loom monogram"
+                  width={360}
+                  height={360}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
