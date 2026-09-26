@@ -23,10 +23,19 @@ export default function HeroSection({
   theme,
   onToggleTheme,
 }: HeroSectionProps) {
-  // Three path refs for the layered fiber-optic thread system
-  const pathRailRef   = useRef<SVGPathElement | null>(null); // ghost rail (dashed)
-  const pathGlowRef   = useRef<SVGPathElement | null>(null); // wide soft glow
-  const pathBaseRef   = useRef<SVGPathElement | null>(null); // main filament
+  // Path refs for the 4 layered fiber-optic loom threads
+  const path1RailRef = useRef<SVGPathElement | null>(null);
+  const path1GlowRef = useRef<SVGPathElement | null>(null);
+  const path1BaseRef = useRef<SVGPathElement | null>(null);
+
+  const path2GlowRef = useRef<SVGPathElement | null>(null);
+  const path2BaseRef = useRef<SVGPathElement | null>(null);
+
+  const path3GlowRef = useRef<SVGPathElement | null>(null);
+  const path3BaseRef = useRef<SVGPathElement | null>(null);
+
+  const path4GlowRef = useRef<SVGPathElement | null>(null);
+  const path4BaseRef = useRef<SVGPathElement | null>(null);
 
   useEffect(() => {
     let animId: number;
@@ -64,68 +73,102 @@ export default function HeroSection({
       const mY = (mouseY - 0.5) * 45;
       const mX = (mouseX - 0.5) * 28;
 
-      // ── Start anchor: barely moves ────────────────────────────────────
-      const startY = 618
-        + Math.sin(t * 0.13) * 14
-        + Math.cos(t * 0.08) * 8;
+      // ── THREAD 1: Primary sweeping S-curve (lower-left to upper-right) ──
+      const t1_startY = 618 + Math.sin(t * 0.13) * 14 + Math.cos(t * 0.08) * 8;
+      const t1_midX   = 545 + Math.cos(t * 0.11 + 0.6) * 18 + mX * 0.25;
+      const t1_midY   = 390 + Math.sin(t * 0.17 + 1.1) * 48 + Math.cos(t * 0.09 + 2.4) * 24 + Math.sin(t * 0.23 + 0.4) * 12 + mY * 0.45;
+      const t1_endX   = 1220 + Math.cos(t * 0.10) * 8;
+      const t1_endY   = 185 + Math.sin(t * 0.14 + 2.0) * 16 + Math.cos(t * 0.08 + 0.7) * 9;
+      const t1_cp1x   = 180 + Math.cos(t * 0.12 + 0.9) * 22 + mX * 0.15;
+      const t1_cp1y   = 588 + Math.sin(t * 0.18 + 0.6) * 36 + Math.cos(t * 0.10 + 1.9) * 20 + mY * 0.25;
+      const t1_cp2x   = t1_midX - 178 + Math.sin(t * 0.14 + 2.2) * 18;
+      const t1_cp2y   = t1_midY + 78 + Math.cos(t * 0.11 + 1.0) * 24 + Math.sin(t * 0.08 + 2.8) * 14 + mY * 0.35;
+      const t1_cp3x   = 968 + Math.cos(t * 0.15 + 1.4) * 24 + mX * 0.5;
+      const t1_cp3y   = 252 + Math.sin(t * 0.12 + 0.7) * 30 + Math.cos(t * 0.09 + 2.0) * 16 + mY * 0.55;
 
-      // ── Mid-point: the S-curve inflection, the thread's heartbeat ─────
-      // Three stacked harmonics with irrational ratios → never repeats
-      const midX = 545
-        + Math.cos(t * 0.11 + 0.6) * 18
-        + mX * 0.25;
-      const midY = 390
-        + Math.sin(t * 0.17 + 1.1) * 50   // dominant slow drift
-        + Math.cos(t * 0.09 + 2.4) * 26   // secondary lazy sway
-        + Math.sin(t * 0.23 + 0.4) * 12   // fine organic texture
-        + mY * 0.45;
+      const d1 =
+        `M -20 ${t1_startY.toFixed(1)} ` +
+        `C ${t1_cp1x.toFixed(1)} ${t1_cp1y.toFixed(1)}, ` +
+        `${t1_cp2x.toFixed(1)} ${t1_cp2y.toFixed(1)}, ` +
+        `${t1_midX.toFixed(1)} ${t1_midY.toFixed(1)} ` +
+        `S ${t1_cp3x.toFixed(1)} ${t1_cp3y.toFixed(1)}, ` +
+        `${t1_endX.toFixed(1)} ${t1_endY.toFixed(1)}`;
 
-      // ── End anchor: drifts slowly in the upper-right ─────────────────
-      const endX = 1220
-        + Math.cos(t * 0.10) * 8;
-      const endY = 185
-        + Math.sin(t * 0.14 + 2.0) * 16
-        + Math.cos(t * 0.08 + 0.7) * 9;
+      if (path1RailRef.current) path1RailRef.current.setAttribute('d', d1);
+      if (path1GlowRef.current) path1GlowRef.current.setAttribute('d', d1);
+      if (path1BaseRef.current) path1BaseRef.current.setAttribute('d', d1);
 
-      // ── CP1: lifts the thread off the start, sets first-half tone ──────
-      const cp1x = 180
-        + Math.cos(t * 0.12 + 0.9) * 22
-        + mX * 0.15;
-      const cp1y = 588
-        + Math.sin(t * 0.18 + 0.6) * 38
-        + Math.cos(t * 0.10 + 1.9) * 20
-        + mY * 0.25;
+      // ── THREAD 2: Upper flowing ribbon (mid-left floating high & across) ──
+      const t2_startY = 330 + Math.sin(t * 0.15 + 1.4) * 22 + Math.cos(t * 0.09 + 0.8) * 12;
+      const t2_cp1x   = 240 + Math.cos(t * 0.13 + 2.1) * 26 + mX * 0.18;
+      const t2_cp1y   = 165 + Math.sin(t * 0.19 + 1.8) * 34 + Math.cos(t * 0.07 + 0.5) * 18 + mY * 0.22;
+      const t2_midX   = 590 + Math.sin(t * 0.10 + 2.8) * 24 + mX * 0.30;
+      const t2_midY   = 215 + Math.cos(t * 0.16 + 0.9) * 36 + Math.sin(t * 0.22 + 2.3) * 16 + mY * 0.38;
+      const t2_cp2x   = t2_midX - 160 + Math.cos(t * 0.12 + 1.6) * 20;
+      const t2_cp2y   = t2_midY - 45 + Math.sin(t * 0.14 + 0.7) * 22 + mY * 0.32;
+      const t2_cp3x   = 920 + Math.cos(t * 0.17 + 0.5) * 26 + mX * 0.42;
+      const t2_cp3y   = 275 + Math.sin(t * 0.11 + 2.5) * 30 + Math.cos(t * 0.18 + 1.2) * 14 + mY * 0.48;
+      const t2_endX   = 1220 + Math.sin(t * 0.08 + 1.9) * 10;
+      const t2_endY   = 120 + Math.cos(t * 0.13 + 3.1) * 20 + Math.sin(t * 0.09 + 1.5) * 12;
 
-      // ── CP2: tangent INTO the midpoint, also defines the S reflection ─
-      const cp2x = midX - 178
-        + Math.sin(t * 0.14 + 2.2) * 18;
-      const cp2y = midY + 78
-        + Math.cos(t * 0.11 + 1.0) * 24
-        + Math.sin(t * 0.08 + 2.8) * 14
-        + mY * 0.35;
+      const d2 =
+        `M -20 ${t2_startY.toFixed(1)} ` +
+        `C ${t2_cp1x.toFixed(1)} ${t2_cp1y.toFixed(1)}, ` +
+        `${t2_cp2x.toFixed(1)} ${t2_cp2y.toFixed(1)}, ` +
+        `${t2_midX.toFixed(1)} ${t2_midY.toFixed(1)} ` +
+        `S ${t2_cp3x.toFixed(1)} ${t2_cp3y.toFixed(1)}, ` +
+        `${t2_endX.toFixed(1)} ${t2_endY.toFixed(1)}`;
 
-      // ── CP3: explicit control point for the S segment ─────────────────
-      const cp3x = 968
-        + Math.cos(t * 0.15 + 1.4) * 24
-        + mX * 0.5;
-      const cp3y = 252
-        + Math.sin(t * 0.12 + 0.7) * 30
-        + Math.cos(t * 0.09 + 2.0) * 16
-        + mY * 0.55;
+      if (path2GlowRef.current) path2GlowRef.current.setAttribute('d', d2);
+      if (path2BaseRef.current) path2BaseRef.current.setAttribute('d', d2);
 
-      // M start → C cp1 cp2 mid → S cp3 end
-      const d =
-        `M -20 ${startY.toFixed(1)} ` +
-        `C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ` +
-        `${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ` +
-        `${midX.toFixed(1)} ${midY.toFixed(1)} ` +
-        `S ${cp3x.toFixed(1)} ${cp3y.toFixed(1)}, ` +
-        `${endX.toFixed(1)} ${endY.toFixed(1)}`;
+      // ── THREAD 3: Lower sweeping weave (glides across bottom-center) ──
+      const t3_startY = 475 + Math.sin(t * 0.11 + 2.7) * 18 + Math.cos(t * 0.16 + 1.3) * 12;
+      const t3_cp1x   = 280 + Math.cos(t * 0.18 + 0.4) * 28 + mX * 0.16;
+      const t3_cp1y   = 535 + Math.sin(t * 0.12 + 3.1) * 32 + Math.cos(t * 0.14 + 2.2) * 16 + mY * 0.28;
+      const t3_midX   = 685 + Math.cos(t * 0.14 + 1.7) * 24 + mX * 0.32;
+      const t3_midY   = 515 + Math.sin(t * 0.16 + 2.6) * 34 + Math.cos(t * 0.08 + 1.2) * 20 + mY * 0.40;
+      const t3_cp2x   = t3_midX - 190 + Math.sin(t * 0.15 + 1.1) * 22;
+      const t3_cp2y   = t3_midY + 45 + Math.cos(t * 0.10 + 2.0) * 24 + mY * 0.35;
+      const t3_cp3x   = 995 + Math.sin(t * 0.13 + 0.8) * 28 + mX * 0.46;
+      const t3_cp3y   = 445 + Math.cos(t * 0.15 + 1.9) * 28 + Math.sin(t * 0.20 + 0.6) * 14 + mY * 0.50;
+      const t3_endX   = 1220 + Math.cos(t * 0.11 + 2.4) * 10;
+      const t3_endY   = 435 + Math.sin(t * 0.12 + 1.7) * 18 + Math.cos(t * 0.17 + 0.4) * 10;
 
-      // Paths share the same spline; layers differentiate visually
-      if (pathRailRef.current) pathRailRef.current.setAttribute('d', d);
-      if (pathGlowRef.current) pathGlowRef.current.setAttribute('d', d);
-      if (pathBaseRef.current) pathBaseRef.current.setAttribute('d', d);
+      const d3 =
+        `M -20 ${t3_startY.toFixed(1)} ` +
+        `C ${t3_cp1x.toFixed(1)} ${t3_cp1y.toFixed(1)}, ` +
+        `${t3_cp2x.toFixed(1)} ${t3_cp2y.toFixed(1)}, ` +
+        `${t3_midX.toFixed(1)} ${t3_midY.toFixed(1)} ` +
+        `S ${t3_cp3x.toFixed(1)} ${t3_cp3y.toFixed(1)}, ` +
+        `${t3_endX.toFixed(1)} ${t3_endY.toFixed(1)}`;
+
+      if (path3GlowRef.current) path3GlowRef.current.setAttribute('d', d3);
+      if (path3BaseRef.current) path3BaseRef.current.setAttribute('d', d3);
+
+      // ── THREAD 4: Counter-curve ambient thread (upper-left dipping down) ──
+      const t4_startY = 205 + Math.sin(t * 0.14 + 3.6) * 16 + Math.cos(t * 0.09 + 2.2) * 10;
+      const t4_cp1x   = 210 + Math.cos(t * 0.19 + 2.5) * 24 + mX * 0.14;
+      const t4_cp1y   = 295 + Math.sin(t * 0.11 + 0.7) * 30 + Math.cos(t * 0.15 + 3.0) * 18 + mY * 0.24;
+      const t4_midX   = 645 + Math.cos(t * 0.16 + 1.2) * 26 + mX * 0.34;
+      const t4_midY   = 355 + Math.sin(t * 0.15 + 0.5) * 34 + Math.cos(t * 0.11 + 3.4) * 18 + mY * 0.38;
+      const t4_cp2x   = t4_midX - 180 + Math.sin(t * 0.13 + 3.2) * 22;
+      const t4_cp2y   = t4_midY + 30 + Math.cos(t * 0.17 + 2.1) * 24 + mY * 0.32;
+      const t4_cp3x   = 945 + Math.sin(t * 0.12 + 2.1) * 26 + mX * 0.44;
+      const t4_cp3y   = 305 + Math.cos(t * 0.16 + 2.9) * 30 + Math.sin(t * 0.21 + 1.1) * 14 + mY * 0.46;
+      const t4_endX   = 1220 + Math.cos(t * 0.14 + 1.1) * 8;
+      const t4_endY   = 295 + Math.sin(t * 0.13 + 2.4) * 20 + Math.cos(t * 0.08 + 1.0) * 12;
+
+      const d4 =
+        `M -20 ${t4_startY.toFixed(1)} ` +
+        `C ${t4_cp1x.toFixed(1)} ${t4_cp1y.toFixed(1)}, ` +
+        `${t4_cp2x.toFixed(1)} ${t4_cp2y.toFixed(1)}, ` +
+        `${t4_midX.toFixed(1)} ${t4_midY.toFixed(1)} ` +
+        `S ${t4_cp3x.toFixed(1)} ${t4_cp3y.toFixed(1)}, ` +
+        `${t4_endX.toFixed(1)} ${t4_endY.toFixed(1)}`;
+
+      if (path4GlowRef.current) path4GlowRef.current.setAttribute('d', d4);
+      if (path4BaseRef.current) path4BaseRef.current.setAttribute('d', d4);
 
       animId = requestAnimationFrame(animate);
     };
@@ -145,7 +188,7 @@ export default function HeroSection({
       <header className="hero" id="top" ref={heroRef}>
         <div className="weave" aria-hidden="true" />
 
-        {/* ── Sci-fi fiber-optic thread system ───────────────────────── */}
+        {/* ── Multi-Thread Loom System (4 randomly flowing threads) ── */}
         <svg
           className="thread"
           viewBox="0 0 1200 700"
@@ -153,60 +196,144 @@ export default function HeroSection({
           aria-hidden="true"
         >
           <defs>
-            {/* Rail: barely-there dashed track ghost */}
+            {/* Thread 1 (Primary): Rail, Main, Glow */}
             <linearGradient id="thread-gradient-rail" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.08" />
-              <stop offset="50%"  stopColor="var(--peach)" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="var(--pink)"  stopOpacity="0.06" />
+              <stop offset="0%"   stopColor="var(--thread-rail-color)" stopOpacity="0.10" />
+              <stop offset="50%"  stopColor="var(--thread-color-2)"    stopOpacity="0.25" />
+              <stop offset="100%" stopColor="var(--thread-rail-color)" stopOpacity="0.08" />
             </linearGradient>
 
-            {/* Main filament: the resting fiber */}
             <linearGradient id="thread-gradient-main" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.30" />
-              <stop offset="30%"  stopColor="var(--peach)" stopOpacity="0.70" />
-              <stop offset="65%"  stopColor="var(--pink)"  stopOpacity="0.55" />
-              <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.40" />
+              <stop offset="0%"   stopColor="var(--thread-color-1)" stopOpacity="0.40" />
+              <stop offset="35%"  stopColor="var(--thread-color-2)" stopOpacity="0.75" />
+              <stop offset="70%"  stopColor="var(--thread-color-1)" stopOpacity="0.60" />
+              <stop offset="100%" stopColor="var(--thread-color-2)" stopOpacity="0.45" />
             </linearGradient>
 
-            {/* Glow envelope: wide blurred halo under the filament */}
             <linearGradient id="thread-gradient-glow" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.00" />
-              <stop offset="40%"  stopColor="var(--pink)"  stopOpacity="0.60" />
-              <stop offset="70%"  stopColor="var(--peach)" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.10" />
+              <stop offset="0%"   stopColor="var(--thread-glow-color)" stopOpacity="0.00" />
+              <stop offset="40%"  stopColor="var(--thread-glow-color)" stopOpacity="0.55" />
+              <stop offset="70%"  stopColor="var(--thread-color-2)"    stopOpacity="0.40" />
+              <stop offset="100%" stopColor="var(--thread-glow-color)" stopOpacity="0.10" />
             </linearGradient>
 
-            {/* Signal: bright peach-white laser core */}
+            {/* Thread 2 (Upper flowing): Main, Glow */}
+            <linearGradient id="thread-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stopColor="var(--thread-color-2)" stopOpacity="0.30" />
+              <stop offset="40%"  stopColor="var(--thread-color-1)" stopOpacity="0.70" />
+              <stop offset="75%"  stopColor="var(--thread-color-3)" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="var(--thread-color-2)" stopOpacity="0.35" />
+            </linearGradient>
+
+            <linearGradient id="thread-gradient-glow-2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stopColor="var(--thread-glow-color)" stopOpacity="0.00" />
+              <stop offset="45%"  stopColor="var(--thread-glow-color)" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="var(--thread-glow-color)" stopOpacity="0.05" />
+            </linearGradient>
+
+            {/* Thread 3 (Lower weave): Main, Glow */}
+            <linearGradient id="thread-gradient-3" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="var(--thread-color-1)" stopOpacity="0.35" />
+              <stop offset="40%"  stopColor="var(--thread-color-3)" stopOpacity="0.65" />
+              <stop offset="75%"  stopColor="var(--thread-color-2)" stopOpacity="0.50" />
+              <stop offset="100%" stopColor="var(--thread-color-1)" stopOpacity="0.30" />
+            </linearGradient>
+
+            <linearGradient id="thread-gradient-glow-3" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="var(--thread-glow-color)" stopOpacity="0.00" />
+              <stop offset="50%"  stopColor="var(--thread-glow-color)" stopOpacity="0.40" />
+              <stop offset="100%" stopColor="var(--thread-glow-color)" stopOpacity="0.05" />
+            </linearGradient>
+
+            {/* Thread 4 (Counter-weave): Main, Glow */}
+            <linearGradient id="thread-gradient-4" x1="0%" y1="30%" x2="100%" y2="70%">
+              <stop offset="0%"   stopColor="var(--thread-color-3)" stopOpacity="0.30" />
+              <stop offset="45%"  stopColor="var(--thread-color-2)" stopOpacity="0.60" />
+              <stop offset="80%"  stopColor="var(--thread-color-1)" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="var(--thread-color-3)" stopOpacity="0.25" />
+            </linearGradient>
+
+            <linearGradient id="thread-gradient-glow-4" x1="0%" y1="30%" x2="100%" y2="70%">
+              <stop offset="0%"   stopColor="var(--thread-glow-color)" stopOpacity="0.00" />
+              <stop offset="50%"  stopColor="var(--thread-glow-color)" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="var(--thread-glow-color)" stopOpacity="0.05" />
+            </linearGradient>
+
+            {/* Signal: bright laser core */}
             <linearGradient id="thread-gradient-signal" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%"   stopColor="#FFFFFF"      stopOpacity="0.00" />
-              <stop offset="20%"  stopColor="var(--peach)" stopOpacity="0.90" />
-              <stop offset="55%"  stopColor="#FFFFFF"      stopOpacity="1.00" />
-              <stop offset="80%"  stopColor="var(--pink)"  stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#FFFFFF"      stopOpacity="0.00" />
+              <stop offset="0%"   stopColor="#FFFFFF"                 stopOpacity="0.00" />
+              <stop offset="20%"  stopColor="var(--thread-color-2)"   stopOpacity="0.90" />
+              <stop offset="55%"  stopColor="#FFFFFF"                 stopOpacity="1.00" />
+              <stop offset="80%"  stopColor="var(--thread-color-1)"   stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#FFFFFF"                 stopOpacity="0.00" />
             </linearGradient>
           </defs>
 
-          {/* Layer 1: ghost rail dashes */}
+          {/* ── Thread 4 (Ambient backdrop) ── */}
           <path
-            ref={pathRailRef}
+            ref={path4GlowRef}
+            className="thread-glow-path-4"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 205 C 210 295, 465 385, 645 355 S 945 305, 1220 295"
+          />
+          <path
+            ref={path4BaseRef}
+            className="thread-base-4"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 205 C 210 295, 465 385, 645 355 S 945 305, 1220 295"
+          />
+
+          {/* ── Thread 3 (Lower weave) ── */}
+          <path
+            ref={path3GlowRef}
+            className="thread-glow-path-3"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 475 C 280 535, 495 560, 685 515 S 995 445, 1220 435"
+          />
+          <path
+            ref={path3BaseRef}
+            className="thread-base-3"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 475 C 280 535, 495 560, 685 515 S 995 445, 1220 435"
+          />
+
+          {/* ── Thread 2 (Upper ribbon) ── */}
+          <path
+            ref={path2GlowRef}
+            className="thread-glow-path-2"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 330 C 240 165, 430 170, 590 215 S 920 275, 1220 120"
+          />
+          <path
+            ref={path2BaseRef}
+            className="thread-base-2"
+            pathLength="1000"
+            vectorEffect="non-scaling-stroke"
+            d="M -20 330 C 240 165, 430 170, 590 215 S 920 275, 1220 120"
+          />
+
+          {/* ── Thread 1 (Primary sweeping diagonal) ── */}
+          <path
+            ref={path1RailRef}
             className="thread-rail"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
             d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
-
-          {/* Layer 2: wide soft glow (blurred) */}
           <path
-            ref={pathGlowRef}
+            ref={path1GlowRef}
             className="thread-glow-path"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
             d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
-
-          {/* Layer 3: main filament (crisp) */}
           <path
-            ref={pathBaseRef}
+            ref={path1BaseRef}
             className="thread-base"
             pathLength="1000"
             vectorEffect="non-scaling-stroke"
@@ -245,12 +372,26 @@ export default function HeroSection({
             </div>
           </div>
           <div className="hero-mark glass">
-            <Image
-              src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
-              alt="The Foundry Loom monogram"
-              width={360}
-              height={360}
-            />
+            <div className="hero-mark-coin">
+              {/* Side A: rest state (matches current theme) */}
+              <div className="hero-mark-face hero-mark-side-a">
+                <Image
+                  src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
+                  alt="The Foundry Loom monogram"
+                  width={360}
+                  height={360}
+                />
+              </div>
+              {/* Side B: opposite theme appearance (revealed on hover) */}
+              <div className="hero-mark-face hero-mark-side-b">
+                <Image
+                  src={theme === 'dark' ? '/logo-dark.png' : '/logo-light.png'}
+                  alt="The Foundry Loom monogram"
+                  width={360}
+                  height={360}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

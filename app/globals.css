@@ -28,6 +28,19 @@
   --r-xl: 28px;
   --r-lg: 20px;
   --r-md: 14px;
+
+  /* Thread color system - Light theme (preserved harmonious blush/peach tones) */
+  --thread-color-1: #D3A1AB;
+  --thread-color-2: #F4EEE9;
+  --thread-color-3: #E2BAC4;
+  --thread-glow-color: #D3A1AB;
+  --thread-rail-color: #D3A1AB;
+  --thread-base-opacity: 0.72;
+  --thread-sub-opacity: 0.55;
+  --thread-sub2-opacity: 0.44;
+  --thread-glow-opacity: 0.22;
+  --thread-rail-opacity: 0.18;
+
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -43,6 +56,18 @@
   --line: rgba(244, 238, 233, 0.14);
   --accent: #D3A1AB;
   --on-accent: #44290C;
+
+  /* Thread color system - Dark theme (deeper, richer antique rose & wine, gentle contrast) */
+  --thread-color-1: #8C3750;
+  --thread-color-2: #A84D65;
+  --thread-color-3: #75283C;
+  --thread-glow-color: #5C1929;
+  --thread-rail-color: #72273B;
+  --thread-base-opacity: 0.50;
+  --thread-sub-opacity: 0.38;
+  --thread-sub2-opacity: 0.30;
+  --thread-glow-opacity: 0.14;
+  --thread-rail-opacity: 0.10;
 }
 
 *,
@@ -490,22 +515,33 @@ body {
 
 .tfl .navlinks {
   display: flex;
+  align-items: center;
   gap: 4px;
   border: 1px solid rgba(127, 46, 69, .25);
   border-radius: 999px;
-  padding: 5px;
+  padding: 4px;
   list-style: none;
-  margin: 0
+  margin: 0;
+  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  box-sizing: border-box;
 }
 
 .tfl .navlinks a {
-  display: block;
-  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 16px;
   border-radius: 999px;
   font-size: .9rem;
   font-weight: 500;
+  line-height: 1;
   text-decoration: none;
-  color: var(--derby)
+  color: var(--derby);
+  box-sizing: border-box;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .tfl .navlinks a:hover {
@@ -519,22 +555,36 @@ body {
 .tfl .nav-right {
   display: flex;
   align-items: center;
-  gap: 10px
+  gap: 10px;
 }
 
 .tfl .icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+  box-sizing: border-box;
   border-radius: 50%;
   border: 1px solid rgba(127, 46, 69, .35);
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--derby);
-  text-decoration: none
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
 }
 
 .tfl .icon-btn:hover {
-  background: rgba(127, 46, 69, .10)
+  background: rgba(127, 46, 69, .10);
+}
+
+.tfl .icon-btn:active {
+  transform: scale(0.96);
 }
 
 /* ── Dark theme nav: peach text ── */
@@ -664,8 +714,8 @@ body {
 
 
 /* ══════════════════════════════════════════
-   SCI-FI THREAD: fiber-optic signal system
-   Three layers: ghost rail · base filament · laser pulse
+   SCI-FI THREAD SYSTEM: Multi-thread Loom
+   4 organically flowing threads with layered depth
    ══════════════════════════════════════════ */
 
 .tfl .thread {
@@ -680,8 +730,8 @@ body {
   overflow: visible;
 }
 
+/* Thread 1: Primary sweeping filament */
 .tfl .thread-rail {
-  /* Ghost underlayer: barely visible parallel track */
   fill: none;
   stroke: url(#thread-gradient-rail);
   stroke-width: 2px;
@@ -694,10 +744,9 @@ body {
 }
 
 .tfl .thread-base {
-  /* Main filament: drawn from left to right on load */
   fill: none;
   stroke: url(#thread-gradient-main);
-  stroke-width: 1.2px;
+  stroke-width: 1.25px;
   stroke-linecap: round;
   opacity: 0;
   stroke-dasharray: 1000;
@@ -708,7 +757,6 @@ body {
 }
 
 .tfl .thread-glow-path {
-  /* Soft glow envelope under the filament */
   fill: none;
   stroke: url(#thread-gradient-glow);
   stroke-width: 6px;
@@ -722,8 +770,91 @@ body {
     tfl-glow-pulse 8s 3.1s ease-in-out infinite;
 }
 
+/* Thread 2: Upper flowing ribbon */
+.tfl .thread-base-2 {
+  fill: none;
+  stroke: url(#thread-gradient-2);
+  stroke-width: 1.1px;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw-2 2.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-filament-breathe-2 9s 3.5s ease-in-out infinite;
+}
+
+.tfl .thread-glow-path-2 {
+  fill: none;
+  stroke: url(#thread-gradient-glow-2);
+  stroke-width: 5px;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: blur(3.5px);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw-2 2.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-glow-pulse-2 9s 3.5s ease-in-out infinite;
+}
+
+/* Thread 3: Lower sweeping weave */
+.tfl .thread-base-3 {
+  fill: none;
+  stroke: url(#thread-gradient-3);
+  stroke-width: 1.05px;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw-3 2.9s 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-filament-breathe-3 8.5s 3.8s ease-in-out infinite;
+}
+
+.tfl .thread-glow-path-3 {
+  fill: none;
+  stroke: url(#thread-gradient-glow-3);
+  stroke-width: 4.5px;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: blur(3px);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw-3 2.9s 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-glow-pulse-3 8.5s 3.8s ease-in-out infinite;
+}
+
+/* Thread 4: Counter-curve ambient thread */
+.tfl .thread-base-4 {
+  fill: none;
+  stroke: url(#thread-gradient-4);
+  stroke-width: 0.95px;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw-4 3.0s 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-filament-breathe-4 10s 4.1s ease-in-out infinite;
+}
+
+.tfl .thread-glow-path-4 {
+  fill: none;
+  stroke: url(#thread-gradient-glow-4);
+  stroke-width: 4px;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: blur(3px);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    tfl-draw-4 3.0s 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    tfl-glow-pulse-4 10s 4.1s ease-in-out infinite;
+}
+
 .tfl .thread-pulse {
-  /* Primary laser signal: travels the full length */
   fill: none;
   stroke: url(#thread-gradient-signal);
   stroke-width: 1.8px;
@@ -739,7 +870,6 @@ body {
 }
 
 .tfl .thread-pulse2 {
-  /* Secondary laser: shorter, delayed, creates stagger effect */
   fill: none;
   stroke: url(#thread-gradient-signal);
   stroke-width: 1.2px;
@@ -755,28 +885,61 @@ body {
 
 /* ── Draw animations ───────────────────── */
 @keyframes tfl-draw {
-  to { stroke-dashoffset: 0; opacity: 0.72; }
+  to { stroke-dashoffset: 0; opacity: var(--thread-base-opacity, 0.72); }
+}
+@keyframes tfl-draw-2 {
+  to { stroke-dashoffset: 0; opacity: var(--thread-sub-opacity, 0.55); }
+}
+@keyframes tfl-draw-3 {
+  to { stroke-dashoffset: 0; opacity: var(--thread-sub-opacity, 0.50); }
+}
+@keyframes tfl-draw-4 {
+  to { stroke-dashoffset: 0; opacity: var(--thread-sub2-opacity, 0.44); }
 }
 
 @keyframes tfl-draw-rail {
   0%   { opacity: 0; }
-  100% { opacity: 0.18; }
+  100% { opacity: var(--thread-rail-opacity, 0.18); }
 }
 
 /* ── Idle breathe animations ──────────── */
 @keyframes tfl-filament-breathe {
-  0%, 100% { opacity: 0.55; stroke-width: 1.1px; }
-  50%       { opacity: 0.80; stroke-width: 1.4px; }
+  0%, 100% { opacity: calc(var(--thread-base-opacity, 0.72) * 0.80); stroke-width: 1.1px; }
+  50%       { opacity: var(--thread-base-opacity, 0.72); stroke-width: 1.35px; }
+}
+@keyframes tfl-filament-breathe-2 {
+  0%, 100% { opacity: calc(var(--thread-sub-opacity, 0.55) * 0.75); stroke-width: 0.95px; }
+  50%       { opacity: var(--thread-sub-opacity, 0.55); stroke-width: 1.2px; }
+}
+@keyframes tfl-filament-breathe-3 {
+  0%, 100% { opacity: calc(var(--thread-sub-opacity, 0.50) * 0.78); stroke-width: 0.9px; }
+  50%       { opacity: var(--thread-sub-opacity, 0.50); stroke-width: 1.15px; }
+}
+@keyframes tfl-filament-breathe-4 {
+  0%, 100% { opacity: calc(var(--thread-sub2-opacity, 0.44) * 0.75); stroke-width: 0.85px; }
+  50%       { opacity: var(--thread-sub2-opacity, 0.44); stroke-width: 1.05px; }
 }
 
 @keyframes tfl-rail-breathe {
-  0%, 100% { opacity: 0.12; }
-  50%       { opacity: 0.24; }
+  0%, 100% { opacity: calc(var(--thread-rail-opacity, 0.18) * 0.7); }
+  50%       { opacity: var(--thread-rail-opacity, 0.18); }
 }
 
 @keyframes tfl-glow-pulse {
-  0%, 100% { opacity: 0.08; }
-  50%       { opacity: 0.22; }
+  0%, 100% { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.5); }
+  50%       { opacity: var(--thread-glow-opacity, 0.22); }
+}
+@keyframes tfl-glow-pulse-2 {
+  0%, 100% { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.4); }
+  50%       { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.85); }
+}
+@keyframes tfl-glow-pulse-3 {
+  0%, 100% { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.4); }
+  50%       { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.8); }
+}
+@keyframes tfl-glow-pulse-4 {
+  0%, 100% { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.35); }
+  50%       { opacity: calc(var(--thread-glow-opacity, 0.22) * 0.75); }
 }
 
 /* ── Signal travel ───────────────────── */
@@ -2375,40 +2538,137 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  padding: clamp(28px, 3.2vw, 42px);
   position: relative;
   z-index: 3;   /* explicitly above thread (z-index: 1) */
-  /* Gradient base: catches light at top-left like a curved glass sphere */
+  /* 3D flip perspective container */
+  perspective: 900px;
+  /* Remove overflow:hidden so backface of side-b doesn't clip */
+  overflow: visible !important;
+  /* Don't create a stacking context that would flatten 3D children */
+  isolation: auto !important;
+  /* Strip the glass/shadow from the wrapper; each face carries it */
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+          backdrop-filter: none !important;
+}
+
+/* Override .glass > * which would force position:relative / z-index on the coin element */
+.tfl .hero-mark.glass > .hero-mark-coin {
+  position: absolute;
+  z-index: auto;
+}
+
+/* Suppress the inherited .glass::before grain on the wrapper — faces have their own */
+.tfl .hero-mark.glass::before {
+  display: none;
+}
+
+/* The inner element is what actually flips */
+.tfl .hero-mark-coin {
+  transform-style: preserve-3d;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition: transform 0.7s ease-in-out;
+}
+
+.tfl .hero-mark:hover .hero-mark-coin {
+  transform: rotateY(180deg);
+}
+
+/* Both faces: absolutely stacked, circle-shaped */
+.tfl .hero-mark-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: clamp(28px, 3.2vw, 42px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Side A — translucent glass; naturally takes the current theme's hero color via backdrop-filter */
+.tfl .hero-mark-side-a {
+  z-index: 2;
   background:
     linear-gradient(
       140deg,
       rgba(255, 255, 255, 0.18) 0%,
       rgba(211, 120, 145, 0.10) 40%,
       rgba(255, 255, 255, 0.04) 100%
-    ) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
-  border-bottom-color: rgba(255, 255, 255, 0.10) !important;
-
-  /* Stronger frost: makes it feel genuinely frosted, not just blurred */
-  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
-          backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
-
+    );
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12);
+          backdrop-filter: blur(28px) saturate(200%) brightness(1.12);
   box-shadow:
-    inset 0 2px 0     rgba(255, 255, 255, 0.50),   /* top arc highlight    */
-    inset 0 -1.5px 0  rgba(110,  35,  60, 0.25),   /* bottom depth edge    */
-    inset 1.5px 0 0   rgba(255, 255, 255, 0.16),   /* left arc catch       */
-    inset -1.5px 0 0  rgba(110,  35,  60, 0.12),   /* right depth edge     */
-    inset 0 0 40px    rgba(211, 120, 145, 0.10),   /* inner pink glow      */
-    0 4px  12px -2px  rgba(0,    0,   0,  0.20),   /* close shadow         */
-    0 16px 48px -8px  rgba(0,    0,   0,  0.28),   /* deep shadow          */
-    0 0    0    1.5px rgba(255, 255, 255, 0.08) !important; /* outer hairline */
-
-  overflow: hidden;
-  isolation: isolate
+    inset 0 2px 0     rgba(255, 255, 255, 0.50),
+    inset 0 -1.5px 0  rgba(110,  35,  60, 0.25),
+    inset 1.5px 0 0   rgba(255, 255, 255, 0.16),
+    inset -1.5px 0 0  rgba(110,  35,  60, 0.12),
+    inset 0 0 40px    rgba(211, 120, 145, 0.10),
+    0 4px  12px -2px  rgba(0,    0,   0,  0.20),
+    0 16px 48px -8px  rgba(0,    0,   0,  0.28),
+    0 0    0    1.5px rgba(255, 255, 255, 0.08);
 }
 
-/* Re-enable grain on the circle: adds the fine frosted texture */
-.tfl .hero-mark::before {
+/* Side B — default (light mode): opaque dark-maroon fill so it looks like the dark-mode badge */
+.tfl .hero-mark-side-b {
+  transform: rotateY(180deg);
+  z-index: 1;
+  /* Light mode: flip reveals dark-mode badge — deep maroon-rose, opaque enough to ignore light bg */
+  background:
+    linear-gradient(
+      140deg,
+      rgba(110, 28, 52, 0.90) 0%,
+      rgba(80, 16, 36, 0.88) 50%,
+      rgba(100, 22, 46, 0.90) 100%
+    );
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(0.90);
+          backdrop-filter: blur(28px) saturate(180%) brightness(0.90);
+  box-shadow:
+    inset 0 2px 0     rgba(255, 255, 255, 0.22),
+    inset 0 -1.5px 0  rgba(30,   8,  18, 0.50),
+    inset 1.5px 0 0   rgba(255, 255, 255, 0.12),
+    inset -1.5px 0 0  rgba(30,   8,  18, 0.25),
+    0 4px  12px -2px  rgba(0,    0,   0,  0.35),
+    0 16px 48px -8px  rgba(0,    0,   0,  0.45),
+    0 0    0    1.5px rgba(255, 255, 255, 0.10);
+}
+
+/* Dark mode: flip reveals light-mode badge — warm blush-cream, opaque enough to ignore dark bg */
+.tfl[data-theme="dark"] .hero-mark-side-b {
+  background:
+    linear-gradient(
+      140deg,
+      rgba(250, 238, 234, 0.94) 0%,
+      rgba(240, 210, 220, 0.90) 50%,
+      rgba(248, 235, 238, 0.92) 100%
+    );
+  border: 1.5px solid rgba(255, 255, 255, 0.80);
+  border-bottom-color: rgba(200, 155, 170, 0.35);
+  -webkit-backdrop-filter: blur(28px) saturate(140%) brightness(1.06);
+          backdrop-filter: blur(28px) saturate(140%) brightness(1.06);
+  box-shadow:
+    inset 0 2px 0     rgba(255, 255, 255, 0.90),
+    inset 0 -1.5px 0  rgba(127,  46,  69, 0.14),
+    inset 1.5px 0 0   rgba(255, 255, 255, 0.55),
+    inset -1.5px 0 0  rgba(127,  46,  69, 0.08),
+    0 4px  12px -2px  rgba(0,    0,   0,  0.08),
+    0 16px 48px -8px  rgba(127,  46,  69, 0.10),
+    0 0    0    1.5px rgba(255, 255, 255, 0.30);
+}
+
+/* Grain texture on both faces */
+.tfl .hero-mark-side-a::before,
+.tfl .hero-mark-side-b::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -2421,8 +2681,9 @@ body {
   mix-blend-mode: overlay
 }
 
-/* Angular shimmer streak across the top of the circle */
-.tfl .hero-mark::after {
+/* Angular shimmer streak on both faces */
+.tfl .hero-mark-side-a::after,
+.tfl .hero-mark-side-b::after {
   content: '';
   position: absolute;
   top: 0;
@@ -2440,7 +2701,8 @@ body {
   z-index: 0
 }
 
-.tfl .hero-mark img {
+.tfl .hero-mark img,
+.tfl .hero-mark-face img {
   width: 86%;
   position: relative;
   z-index: 1
@@ -2825,11 +3087,17 @@ body {
 }
 
 .tfl .sticky-theme-toggle {
-  width: 38px;
-  height: 38px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+  box-sizing: border-box;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(68, 41, 12, .18);
   background: rgba(244, 238, 233, .8);
   color: var(--ink);

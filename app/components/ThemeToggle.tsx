@@ -7,7 +7,7 @@ interface ThemeToggleProps {
   tabIndex?: number;
 }
 
-export function SunIcon({ size = 18 }: { size?: number }) {
+export function SunIcon({ size = 19 }: { size?: number }) {
   return (
     <svg
       width={size}
@@ -33,7 +33,7 @@ export function SunIcon({ size = 18 }: { size?: number }) {
   );
 }
 
-export function MoonIcon({ size = 18 }: { size?: number }) {
+export function MoonIcon({ size = 19 }: { size?: number }) {
   return (
     <svg
       width={size}
