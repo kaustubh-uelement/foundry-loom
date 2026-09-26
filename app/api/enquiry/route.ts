@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, errors }, { status: 422 });
   }
 
-  // Log submission (no email transport configured — add Nodemailer/Resend here)
+  // Log submission (no email transport configured: add Nodemailer/Resend here)
   console.log('[enquiry]', {
     name,
     email,

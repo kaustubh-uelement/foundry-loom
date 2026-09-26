@@ -58,18 +58,18 @@ export default function HeroSection({
       if (!startTime) startTime = time;
       const t = (time - startTime) / 1000;
 
-      // Dreamy, laggy mouse — responds slowly like silk pulled by air
+      // Dreamy, laggy mouse: responds slowly like silk pulled by air
       mouseX += (targetMouseX - mouseX) * 0.025;
       mouseY += (targetMouseY - mouseY) * 0.025;
       const mY = (mouseY - 0.5) * 45;
       const mX = (mouseX - 0.5) * 28;
 
-      // ── Start anchor — barely moves ────────────────────────────────────
+      // ── Start anchor: barely moves ────────────────────────────────────
       const startY = 618
         + Math.sin(t * 0.13) * 14
         + Math.cos(t * 0.08) * 8;
 
-      // ── Mid-point: the S-curve inflection — the thread's heartbeat ─────
+      // ── Mid-point: the S-curve inflection, the thread's heartbeat ─────
       // Three stacked harmonics with irrational ratios → never repeats
       const midX = 545
         + Math.cos(t * 0.11 + 0.6) * 18
@@ -80,7 +80,7 @@ export default function HeroSection({
         + Math.sin(t * 0.23 + 0.4) * 12   // fine organic texture
         + mY * 0.45;
 
-      // ── End anchor — drifts slowly in the upper-right ─────────────────
+      // ── End anchor: drifts slowly in the upper-right ─────────────────
       const endX = 1220
         + Math.cos(t * 0.10) * 8;
       const endY = 185
@@ -96,7 +96,7 @@ export default function HeroSection({
         + Math.cos(t * 0.10 + 1.9) * 20
         + mY * 0.25;
 
-      // ── CP2: tangent INTO the midpoint — also defines the S reflection ─
+      // ── CP2: tangent INTO the midpoint, also defines the S reflection ─
       const cp2x = midX - 178
         + Math.sin(t * 0.14 + 2.2) * 18;
       const cp2y = midY + 78
@@ -122,7 +122,7 @@ export default function HeroSection({
         `S ${cp3x.toFixed(1)} ${cp3y.toFixed(1)}, ` +
         `${endX.toFixed(1)} ${endY.toFixed(1)}`;
 
-      // Paths share the same spline — layers differentiate visually
+      // Paths share the same spline; layers differentiate visually
       if (pathRailRef.current) pathRailRef.current.setAttribute('d', d);
       if (pathGlowRef.current) pathGlowRef.current.setAttribute('d', d);
       if (pathBaseRef.current) pathBaseRef.current.setAttribute('d', d);
@@ -153,14 +153,14 @@ export default function HeroSection({
           aria-hidden="true"
         >
           <defs>
-            {/* Rail — barely-there dashed track ghost */}
+            {/* Rail: barely-there dashed track ghost */}
             <linearGradient id="thread-gradient-rail" x1="0%" y1="100%" x2="100%" y2="0%">
               <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.08" />
               <stop offset="50%"  stopColor="var(--peach)" stopOpacity="0.18" />
               <stop offset="100%" stopColor="var(--pink)"  stopOpacity="0.06" />
             </linearGradient>
 
-            {/* Main filament — the resting fiber */}
+            {/* Main filament: the resting fiber */}
             <linearGradient id="thread-gradient-main" x1="0%" y1="100%" x2="100%" y2="0%">
               <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.30" />
               <stop offset="30%"  stopColor="var(--peach)" stopOpacity="0.70" />
@@ -168,7 +168,7 @@ export default function HeroSection({
               <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.40" />
             </linearGradient>
 
-            {/* Glow envelope — wide blurred halo under the filament */}
+            {/* Glow envelope: wide blurred halo under the filament */}
             <linearGradient id="thread-gradient-glow" x1="0%" y1="100%" x2="100%" y2="0%">
               <stop offset="0%"   stopColor="var(--pink)"  stopOpacity="0.00" />
               <stop offset="40%"  stopColor="var(--pink)"  stopOpacity="0.60" />
@@ -176,7 +176,7 @@ export default function HeroSection({
               <stop offset="100%" stopColor="var(--peach)" stopOpacity="0.10" />
             </linearGradient>
 
-            {/* Signal — bright peach-white laser core */}
+            {/* Signal: bright peach-white laser core */}
             <linearGradient id="thread-gradient-signal" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%"   stopColor="#FFFFFF"      stopOpacity="0.00" />
               <stop offset="20%"  stopColor="var(--peach)" stopOpacity="0.90" />
@@ -186,7 +186,7 @@ export default function HeroSection({
             </linearGradient>
           </defs>
 
-          {/* Layer 1 — ghost rail dashes */}
+          {/* Layer 1: ghost rail dashes */}
           <path
             ref={pathRailRef}
             className="thread-rail"
@@ -195,7 +195,7 @@ export default function HeroSection({
             d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
 
-          {/* Layer 2 — wide soft glow (blurred) */}
+          {/* Layer 2: wide soft glow (blurred) */}
           <path
             ref={pathGlowRef}
             className="thread-glow-path"
@@ -204,7 +204,7 @@ export default function HeroSection({
             d="M -20 590 C 200 630, 380 540, 560 480 S 900 360, 1040 260 S 1180 190, 1220 185"
           />
 
-          {/* Layer 3 — main filament (crisp) */}
+          {/* Layer 3: main filament (crisp) */}
           <path
             ref={pathBaseRef}
             className="thread-base"

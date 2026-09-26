@@ -1,5 +1,5 @@
 /**
- * The Foundry Loom — website (single-file React component, frosted glass edition)
+ * The Foundry Loom: website (single-file React component, frosted glass edition)
  *
  * Usage:
  *   import TheFoundryLoom from './TheFoundryLoom';
@@ -7,9 +7,9 @@
  *
  * Self-contained: styles, fonts (Google Fonts) and both logos are embedded.
  * Optional props:
- *   logoLight / logoDark  – swap in your own logo URLs (e.g. '/logo-peach.png')
- *   enquiryEndpoint       – POST URL for the contact form (default '/api/enquiry')
- *   rsvpEndpoint          – POST URL for event bookings (default '/api/rsvp')
+ *   logoLight / logoDark: swap in your own logo URLs (e.g. '/logo-peach.png')
+ *   enquiryEndpoint: POST URL for the contact form (default '/api/enquiry')
+ *   rsvpEndpoint: POST URL for event bookings (default '/api/rsvp')
  * If an endpoint is missing or fails, the form opens a pre-filled email instead.
  * In Next.js App Router, this file is a client component (see 'use client' below).
  */
@@ -109,7 +109,7 @@ const STEPS = [
   ['Measure', 'Monthly reports on reach, audience quality and the opportunities created.'],
 ];
 
-// Sample sessions — replace with real events.
+// Sample sessions: replace with real events.
 const EVENTS = [
   { id: 'building-a-founder-brand-on-linkedin', mon: 'OCT', day: '08', year: '2026', title: 'Building a founder brand on LinkedIn', where: 'Online, Zoom · 60 minutes', seats: 40 },
   { id: 'writing-with-numbers', mon: 'OCT', day: '22', year: '2026', title: 'Writing with numbers: content for operators', where: 'Mumbai studio, Bhandup West · 90 minutes', seats: 20 },

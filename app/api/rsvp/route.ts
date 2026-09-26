@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
   const event = EVENTS.find((ev) => ev.id === eventId)!;
 
-  // Log submission (no email transport configured — add Nodemailer/Resend here)
+  // Log submission (no email transport configured: add Nodemailer/Resend here)
   console.log('[rsvp]', {
     event: event.title,
     name,

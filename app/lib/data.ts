@@ -90,7 +90,7 @@ export const STEPS: [string, string][] = [
   ['Measure', 'Monthly reports on reach, audience quality and the opportunities created.'],
 ];
 
-// Sample sessions — replace with real events.
+// Sample sessions: replace with real events.
 export const EVENTS: Event[] = [
   { id: 'building-a-founder-brand-on-linkedin', mon: 'OCT', day: '08', year: '2026', title: 'Building a founder brand on LinkedIn', where: 'Online, Zoom · 60 minutes', seats: 40 },
   { id: 'writing-with-numbers', mon: 'OCT', day: '22', year: '2026', title: 'Writing with numbers: content for operators', where: 'Mumbai studio, Bhandup West · 90 minutes', seats: 20 },

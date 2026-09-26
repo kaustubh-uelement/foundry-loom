@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 /* ============================================================
-   THE FOUNDRY LOOM — design system
+   THE FOUNDRY LOOM: design system
    Ported verbatim from TheFoundryLoom.jsx CSS block
    ============================================================ */
 
@@ -285,7 +285,7 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* Grid lives here — direct parent of .hero — so backdrop-filter can sample it */
+  /* Grid lives here (direct parent of .hero), so backdrop-filter can sample it */
   background-color: var(--bg);
   background-image:
     repeating-linear-gradient(90deg, rgba(68, 41, 12, .28) 0 1px, transparent 1px 22px),
@@ -304,7 +304,7 @@ body {
   overflow: hidden;
 
   /*
-   * TRUE frosted glass — hero-shell is the solid backdrop; this panel is
+   * TRUE frosted glass: hero-shell is the solid backdrop; this panel is
    * semi-transparent so backdrop-filter blurs whatever is behind it (the
    * grid pattern on hero-shell). Keep background alpha LOW so the effect
    * is actually visible rather than an opaque panel.
@@ -369,7 +369,7 @@ body {
     0 24px 60px -12px   rgba(0,   0,   0,  0.50);
 }
 
-/* Fine grain texture on the hero glass surface — the Apple secret sauce */
+/* Fine grain texture on the hero glass surface: the Apple secret sauce */
 .tfl .hero::before {
   content: '';
   position: absolute;
@@ -652,7 +652,7 @@ body {
 
 
 /* ══════════════════════════════════════════
-   SCI-FI THREAD — fiber-optic signal system
+   SCI-FI THREAD: fiber-optic signal system
    Three layers: ghost rail · base filament · laser pulse
    ══════════════════════════════════════════ */
 
@@ -669,7 +669,7 @@ body {
 }
 
 .tfl .thread-rail {
-  /* Ghost underlayer — barely visible parallel track */
+  /* Ghost underlayer: barely visible parallel track */
   fill: none;
   stroke: url(#thread-gradient-rail);
   stroke-width: 2px;
@@ -682,7 +682,7 @@ body {
 }
 
 .tfl .thread-base {
-  /* Main filament — drawn from left to right on load */
+  /* Main filament: drawn from left to right on load */
   fill: none;
   stroke: url(#thread-gradient-main);
   stroke-width: 1.2px;
@@ -711,7 +711,7 @@ body {
 }
 
 .tfl .thread-pulse {
-  /* Primary laser signal — travels the full length */
+  /* Primary laser signal: travels the full length */
   fill: none;
   stroke: url(#thread-gradient-signal);
   stroke-width: 1.8px;
@@ -727,7 +727,7 @@ body {
 }
 
 .tfl .thread-pulse2 {
-  /* Secondary laser — shorter, delayed, creates stagger effect */
+  /* Secondary laser: shorter, delayed, creates stagger effect */
   fill: none;
   stroke: url(#thread-gradient-signal);
   stroke-width: 1.2px;
@@ -2282,7 +2282,7 @@ body {
   overflow: hidden
 }
 
-/* Noise / grain layer — exactly like Apple's visionOS glass texture */
+/* Noise / grain layer: exactly like Apple's visionOS glass texture */
 .tfl .glass::before {
   content: '';
   position: absolute;
@@ -2363,7 +2363,7 @@ body {
   padding: clamp(28px, 3.2vw, 42px);
   position: relative;
   z-index: 3;   /* explicitly above thread (z-index: 1) */
-  /* Gradient base — catches light at top-left like a curved glass sphere */
+  /* Gradient base: catches light at top-left like a curved glass sphere */
   background:
     linear-gradient(
       140deg,
@@ -2374,7 +2374,7 @@ body {
   border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
   border-bottom-color: rgba(255, 255, 255, 0.10) !important;
 
-  /* Stronger frost — makes it feel genuinely frosted, not just blurred */
+  /* Stronger frost: makes it feel genuinely frosted, not just blurred */
   -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
           backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
 
@@ -2392,7 +2392,7 @@ body {
   isolation: isolate
 }
 
-/* Re-enable grain on the circle — adds the fine frosted texture */
+/* Re-enable grain on the circle: adds the fine frosted texture */
 .tfl .hero-mark::before {
   content: '';
   position: absolute;

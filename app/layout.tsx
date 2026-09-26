@@ -12,12 +12,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'The Foundry Loom — Personal Branding for Founders, Investors & Experts',
+  title: 'The Foundry Loom: Personal Branding for Founders, Investors & Experts',
   description:
     'The Foundry Loom is a Mumbai-based personal branding agency. We build LinkedIn, X, YouTube, Instagram and Pinterest presence for founders, investors and domain experts so the people who matter know what you know.',
   metadataBase: new URL('https://thefoundryloom.com'),
   openGraph: {
-    title: 'The Foundry Loom — Forged in substance. Woven into influence.',
+    title: 'The Foundry Loom: Forged in substance. Woven into influence.',
     description:
       'We build the personal brands of founders, investors and domain experts across LinkedIn, X, YouTube, Instagram and Pinterest.',
     url: 'https://thefoundryloom.com',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The Foundry Loom',
     description:
-      'Personal branding for founders, investors and domain experts — LinkedIn, X, YouTube, Instagram, Pinterest.',
+      'Personal branding for founders, investors and domain experts: LinkedIn, X, YouTube, Instagram, Pinterest.',
     images: ['/logo-dark.png'],
   },
   keywords: [
