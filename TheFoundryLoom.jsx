@@ -50,6 +50,7 @@ const ICONS = {
   x: 'M18.9 2H22l-7.5 8.6L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8-9.2L1 2h7l4.8 6.3zM17.7 20h1.7L7.4 3.9H5.6z',
   youtube: 'M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.75 15.02V8.98L15.5 12z',
   instagram: 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.5 5.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z',
+  newsletter: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z',
   pinterest: 'M12 2C6.5 2 3 5.9 3 10.1c0 2.6 1.4 4.8 3.6 5.6.36.14.55 0 .63-.37l.25-1c.07-.3.04-.4-.2-.66-.52-.62-.85-1.42-.85-2.55 0-3.3 2.46-6.25 6.4-6.25 3.5 0 5.4 2.13 5.4 4.98 0 3.75-1.66 6.9-4.12 6.9-1.36 0-2.38-1.12-2.05-2.5.39-1.65 1.15-3.43 1.15-4.62 0-1.06-.57-1.95-1.75-1.95-1.39 0-2.5 1.44-2.5 3.36 0 1.22.41 2.05.41 2.05l-1.66 7.04c-.49 2.08-.07 4.64-.04 4.9.02.15.21.19.3.07.13-.16 1.75-2.17 2.3-4.18.16-.57.9-3.5.9-3.5.44.84 1.73 1.58 3.1 1.58 4.09 0 6.86-3.73 6.86-8.72C21 5.6 17.8 2 12 2z',
   target: 'M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
 };
@@ -59,7 +60,7 @@ const SERVICES = [
   ['x', 'X (Twitter)', 'Real-time commentary and threads for markets, Web3 and technology conversations.'],
   ['youtube', 'YouTube', 'Explainers, interviews and shorts that turn expertise into searchable, lasting authority.'],
   ['instagram', 'Instagram', 'Founder stories and behind-the-scenes content for consumer and lifestyle brands.'],
-  ['pinterest', 'Pinterest', 'Visual discovery for design-led sectors like apparel, hospitality and real estate.'],
+  ['newsletter', 'Newsletter', 'Editorial newsletters that turn your insights into an owned, recurring audience of decision-makers.'],
   ['target', 'Lead generation', 'Turning visibility into pipeline through targeted outreach and inbound capture, measured in meetings booked.'],
 ];
 
@@ -116,7 +117,7 @@ const EVENTS = [
   { id: 'from-feed-to-stage', mon: 'NOV', day: '12', year: '2026', title: 'From feed to stage: getting invited to speak', where: 'Online, Zoom · 60 minutes', seats: 40 },
 ];
 
-const CHANNELS = ['LinkedIn', 'X', 'YouTube', 'Instagram', 'Pinterest', 'Lead generation'];
+const CHANNELS = ['LinkedIn', 'X', 'YouTube', 'Instagram', 'Newsletter', 'Lead generation'];
 const ROLES = ['Founder or CEO', 'Investor or VC', 'Domain expert or CXO', 'Something else'];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
