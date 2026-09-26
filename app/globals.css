@@ -295,17 +295,19 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* Grid lives here (direct parent of .hero), so backdrop-filter can sample it */
+  /* Soft, smudgy subtle grid with gentle atmospheric fade */
   background-color: var(--bg);
   background-image:
-    repeating-linear-gradient(90deg, rgba(68, 41, 12, .28) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(0deg, rgba(68, 41, 12, .28) 0 1px, transparent 1px 22px);
+    radial-gradient(ellipse 95% 85% at 50% 40%, transparent 40%, rgba(244, 238, 233, 0.30) 100%),
+    repeating-linear-gradient(90deg, rgba(68, 41, 12, 0.11) 0px, rgba(68, 41, 12, 0.05) 1px, transparent 1.5px, transparent 24px),
+    repeating-linear-gradient(0deg, rgba(68, 41, 12, 0.11) 0px, rgba(68, 41, 12, 0.05) 1px, transparent 1.5px, transparent 24px);
 }
 
 .tfl[data-theme="dark"] .hero-shell {
   background-image:
-    repeating-linear-gradient(90deg, rgba(244, 238, 233, .22) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(0deg, rgba(244, 238, 233, .22) 0 1px, transparent 1px 22px);
+    radial-gradient(ellipse 95% 85% at 50% 40%, transparent 40%, rgba(22, 13, 7, 0.35) 100%),
+    repeating-linear-gradient(90deg, rgba(244, 238, 233, 0.105) 0px, rgba(244, 238, 233, 0.045) 1px, transparent 1.5px, transparent 24px),
+    repeating-linear-gradient(0deg, rgba(244, 238, 233, 0.105) 0px, rgba(244, 238, 233, 0.045) 1px, transparent 1.5px, transparent 24px);
 }
 
 .tfl .hero {
@@ -414,14 +416,14 @@ body {
   position: relative;
   background-color: var(--bg);
   background-image:
-    repeating-linear-gradient(90deg, rgba(68, 41, 12, .07) 0 2px, transparent 2px 22px),
-    repeating-linear-gradient(0deg, rgba(68, 41, 12, .07) 0 3px, transparent 3px 22px);
+    repeating-linear-gradient(90deg, rgba(68, 41, 12, 0.085) 0px, rgba(68, 41, 12, 0.035) 1px, transparent 1.5px, transparent 24px),
+    repeating-linear-gradient(0deg, rgba(68, 41, 12, 0.085) 0px, rgba(68, 41, 12, 0.035) 1px, transparent 1.5px, transparent 24px);
 }
 
 .tfl[data-theme="dark"] .hero-to-services-grid {
   background-image:
-    repeating-linear-gradient(90deg, rgba(244, 238, 233, .18) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(0deg, rgba(244, 238, 233, .18) 0 1px, transparent 1px 22px);
+    repeating-linear-gradient(90deg, rgba(244, 238, 233, 0.085) 0px, rgba(244, 238, 233, 0.035) 1px, transparent 1.5px, transparent 24px),
+    repeating-linear-gradient(0deg, rgba(244, 238, 233, 0.085) 0px, rgba(244, 238, 233, 0.035) 1px, transparent 1.5px, transparent 24px);
 }
 
 .tfl .hero::after {

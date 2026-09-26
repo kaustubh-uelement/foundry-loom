@@ -403,7 +403,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
         </section>
 
         {/* EVENTS */}
-        <section id="events" style={{ paddingTop: 0 }}>
+        {/* <section id="events" style={{ paddingTop: 0 }}>
           <div className="wrap">
             <div className="head-row"><div><Kicker>Upcoming events</Kicker><h2>Workshops and masterclasses</h2></div><p className="lede" style={{ margin: 0, maxWidth: '40ch' }}>Free, small-group sessions for founders and leaders who want to start building their presence.</p></div>
             <div className="events">
@@ -416,7 +416,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* CONTACT */}
         <section id="contact" style={{ paddingTop: 0 }}>
@@ -554,16 +554,16 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 .tfl .hero-actions .btn-ghost:hover{border-color:var(--peach);background:rgba(244,238,233,.14)}
 .tfl section{padding:96px 0}
 /* ---------- HERO ---------- */
-.tfl .hero-shell{padding:clamp(10px,1.6vh,18px) 0;height:100vh;height:100dvh;box-sizing:border-box;display:flex;flex-direction:column;background-color:var(--bg);background-image:repeating-linear-gradient(90deg, rgba(68,41,12,.10) 0 1px, transparent 1px 28px),repeating-linear-gradient(0deg, rgba(68,41,12,.10) 0 1px, transparent 1px 28px)}
-.tfl[data-theme="dark"] .hero-shell{background-image:repeating-linear-gradient(90deg, rgba(244,238,233,.22) 0 1px, transparent 1px 28px),repeating-linear-gradient(0deg, rgba(244,238,233,.22) 0 1px, transparent 1px 28px)}
+.tfl .hero-shell{padding:clamp(10px,1.6vh,18px) 0;height:100vh;height:100dvh;box-sizing:border-box;display:flex;flex-direction:column;background-color:var(--bg);background-image:radial-gradient(ellipse 95% 85% at 50% 40%, transparent 40%, rgba(244,238,233,0.30) 100%),repeating-linear-gradient(90deg, rgba(68,41,12,0.11) 0px, rgba(68,41,12,0.05) 1px, transparent 1.5px, transparent 24px),repeating-linear-gradient(0deg, rgba(68,41,12,0.11) 0px, rgba(68,41,12,0.05) 1px, transparent 1.5px, transparent 24px)}
+.tfl[data-theme="dark"] .hero-shell{background-image:radial-gradient(ellipse 95% 85% at 50% 40%, transparent 40%, rgba(22,13,7,0.35) 100%),repeating-linear-gradient(90deg, rgba(244,238,233,0.105) 0px, rgba(244,238,233,0.045) 1px, transparent 1.5px, transparent 24px),repeating-linear-gradient(0deg, rgba(244,238,233,0.105) 0px, rgba(244,238,233,0.045) 1px, transparent 1.5px, transparent 24px)}
 .tfl .hero{position:relative;border-radius:var(--r-xl);overflow:hidden;background:transparent;-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(255,255,255,0.28);box-shadow:inset 0 0 2px 1px rgba(255,255,255,0.35),inset 0 0 10px 4px rgba(255,255,255,0.15),inset 0 4px 16px rgba(17,17,26,0.05),0 24px 60px -12px rgba(31,20,10,0.28);color:var(--peach);flex:1;height:100%;max-height:100%;display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box}
 .tfl .hero::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(140% 110% at 65% 10%,rgba(175,62,95,0.10) 0%,rgba(127,46,69,0.12) 45%,rgba(68,25,38,0.15) 100%);pointer-events:none;z-index:0}
 .tfl .glass-surface__filter{pointer-events:none;opacity:0;z-index:-1;width:100%;height:100%;position:absolute;inset:0}
 .tfl .weave{position:absolute;inset:0;pointer-events:none;opacity:.45;z-index:1;
   background:
    radial-gradient(110% 80% at 80% 10%, rgba(211,161,171,0.5) 0%, transparent 55%)}
-.tfl .hero-to-services-grid{position:relative;background-color:var(--bg);background-image:repeating-linear-gradient(90deg, rgba(68,41,12,.07) 0 2px, transparent 2px 28px),repeating-linear-gradient(0deg, rgba(68,41,12,.07) 0 3px, transparent 3px 28px)}
-.tfl[data-theme="dark"] .hero-to-services-grid{background-image:repeating-linear-gradient(90deg, rgba(244,238,233,.18) 0 1px, transparent 1px 28px),repeating-linear-gradient(0deg, rgba(244,238,233,.18) 0 1px, transparent 1px 28px)}
+.tfl .hero-to-services-grid{position:relative;background-color:var(--bg);background-image:repeating-linear-gradient(90deg, rgba(68,41,12,0.085) 0px, rgba(68,41,12,0.035) 1px, transparent 1.5px, transparent 24px),repeating-linear-gradient(0deg, rgba(68,41,12,0.085) 0px, rgba(68,41,12,0.035) 1px, transparent 1.5px, transparent 24px)}
+.tfl[data-theme="dark"] .hero-to-services-grid{background-image:repeating-linear-gradient(90deg, rgba(244,238,233,0.085) 0px, rgba(244,238,233,0.035) 1px, transparent 1.5px, transparent 24px),repeating-linear-gradient(0deg, rgba(244,238,233,0.085) 0px, rgba(244,238,233,0.035) 1px, transparent 1.5px, transparent 24px)}
 .tfl .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;pointer-events:none;z-index:1;background:linear-gradient(to top,rgba(68,20,38,0.25),transparent)}
 .tfl .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(10px,1.8vh,20px) clamp(20px,2.5vw,40px);flex-shrink:0}
 .tfl .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--peach)}

@@ -88,7 +88,7 @@ export default function FoundryLoom() {
         <WorkSection tab={tab} onTabChange={setTab} />
         <RoomsSection />
         <ProcessSection />
-        <EventsSection onRsvp={openRsvp} />
+        {/* <EventsSection onRsvp={openRsvp} /> */}
         <ContactSection />
       </main>
 
