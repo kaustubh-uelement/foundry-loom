@@ -34,15 +34,15 @@ export default function FoundryLoom() {
   const [rsvpFor, setRsvpFor] = useState<Event | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
 
-  // IntersectionObserver for sticky nav
+  // Scroll tracking for sticky nav and back-to-top
   useEffect(() => {
-    if (!heroRef.current || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(
-      ([entry]) => setStickyOn(!entry.isIntersecting),
-      { threshold: 0.05 },
-    );
-    io.observe(heroRef.current);
-    return () => io.disconnect();
+    const handleScroll = () => {
+      setStickyOn(window.scrollY > 160);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleTheme = useCallback(() => {

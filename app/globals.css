@@ -51,6 +51,16 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 html,
 body {
   overflow-x: hidden;
@@ -2245,9 +2255,12 @@ body {
 }
 
 /* ================= FROSTED GLASS ================= */
-.tfl section,
+.tfl section {
+  scroll-margin-top: 96px;
+}
+
 .tfl header.hero {
-  scroll-margin-top: 96px
+  scroll-margin-top: 0;
 }
 
 .tfl .glass {
@@ -2882,6 +2895,7 @@ body {
   box-shadow: 0 6px 20px rgba(68, 41, 12, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateY(14px) scale(0.92);
   transition:
     transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -2896,6 +2910,7 @@ body {
 .tfl .back-to-top.show {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
   transform: translateY(0) scale(1);
   transition:
     transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),

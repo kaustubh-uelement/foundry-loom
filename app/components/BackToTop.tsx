@@ -5,9 +5,11 @@ interface BackToTopProps {
 }
 
 export default function BackToTop({ show }: BackToTopProps) {
-  const scrollToTop = () => {
+  const scrollToTop = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
     window.scrollTo({
       top: 0,
+      left: 0,
       behavior: 'smooth',
     });
   };

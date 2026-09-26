@@ -157,10 +157,12 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
   }, []);
 
   useEffect(() => {
-    if (!heroRef.current || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(([e]) => setStickyOn(!e.isIntersecting), { threshold: 0.05 });
-    io.observe(heroRef.current);
-    return () => io.disconnect();
+    const handleScroll = () => {
+      setStickyOn(window.scrollY > 160);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
@@ -219,7 +221,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
 
       {/* Frosted header after the hero */}
       <div className={`sticky${stickyOn ? ' show' : ''}`} aria-hidden={!stickyOn}>
-        <a className="brand" href="#top" tabIndex={stickyOn ? 0 : -1}><img src={logoDark} alt="" /><span>The Foundry Loom</span></a>
+        <a className="brand" href="#top" tabIndex={stickyOn ? 0 : -1} onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}><img src={logoDark} alt="" /><span>The Foundry Loom</span></a>
         <ul>{NAV.slice(0, 5).map(([h, l]) => <li key={h}><a href={h} tabIndex={stickyOn ? 0 : -1}>{l}</a></li>)}</ul>
         <a className="btn btn-primary" href="#contact" tabIndex={stickyOn ? 0 : -1}>Contact us</a>
       </div>
@@ -475,7 +477,7 @@ export default function TheFoundryLoom({ logoLight = LOGO_LIGHT, logoDark = LOGO
       <button
         type="button"
         className={`back-to-top${stickyOn ? ' show' : ''}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onClick={(e) => { e.currentTarget.blur(); window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}
         aria-label="Back to top"
         tabIndex={stickyOn ? 0 : -1}
         aria-hidden={!stickyOn}
@@ -833,7 +835,7 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 @media (max-width:420px){.tfl .hero-actions .btn{flex:1 1 100%}.tfl .metrics{grid-template-columns:1fr;gap:10px}.tfl .metric.wide{grid-column:auto}.tfl .sticky{width:min(1200px,calc(100% - 16px));padding:4px 6px 4px 10px;gap:6px}.tfl .sticky .brand img{width:30px;height:30px}.tfl .sticky .brand span{font-size:.86rem}.tfl .sticky .btn{padding:0 10px;font-size:.78rem;height:36px;min-height:36px}.tfl .sticky-theme-toggle{width:32px;height:32px}.tfl .dlg{padding:20px 16px}.tfl .dlg .actions .btn{flex:1 1 100%;height:44px;min-height:44px}}
 @media (max-width:350px){.tfl .sticky .brand span{display:none}.tfl .event{grid-template-columns:72px 1fr}.tfl .date b{font-size:1.8rem}.tfl .tab{padding:6px 10px;font-size:0.78rem;min-height:36px}}
 /* ================= FROSTED GLASS ================= */
-.tfl section,.tfl header.hero{scroll-margin-top:96px}
+.tfl section{scroll-margin-top:96px}.tfl header.hero{scroll-margin-top:0}
 .tfl .glass{background:rgba(244,238,233,.10);border:1px solid rgba(244,238,233,.26);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
 .tfl .navlinks,.tfl .icon-btn{background:rgba(244,238,233,.08);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
 .tfl .stats{margin:0 28px 28px;padding:22px 26px;border-radius:22px}
@@ -899,8 +901,8 @@ const CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Gar
 .tfl[data-theme="dark"] .sticky{background:rgba(31,20,10,.7);border-color:rgba(244,238,233,.14)}
 .tfl[data-theme="dark"] .sticky .brand,.tfl[data-theme="dark"] .sticky ul a{color:var(--peach)}
 
-.tfl .back-to-top{position:fixed;z-index:50;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);right:calc(env(safe-area-inset-right,0px) + 24px);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;border:1px solid rgba(255,255,255,.7);background:rgba(244,238,233,.76);color:var(--ink);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);box-shadow:0 6px 20px rgba(68,41,12,.12),inset 0 1px 0 rgba(255,255,255,.7);opacity:0;visibility:hidden;transform:translateY(14px) scale(.92);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease,visibility 0s .35s}
-.tfl .back-to-top.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease}
+.tfl .back-to-top{position:fixed;z-index:50;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);right:calc(env(safe-area-inset-right,0px) + 24px);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;border:1px solid rgba(255,255,255,.7);background:rgba(244,238,233,.76);color:var(--ink);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);box-shadow:0 6px 20px rgba(68,41,12,.12),inset 0 1px 0 rgba(255,255,255,.7);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(14px) scale(.92);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease,visibility 0s .35s}
+.tfl .back-to-top.show{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease}
 .tfl .back-to-top:hover{background:rgba(244,238,233,.94);border-color:rgba(255,255,255,.95);transform:translateY(-2px) scale(1.06);box-shadow:0 10px 24px rgba(68,41,12,.16),inset 0 1px 0 rgba(255,255,255,.9);color:var(--accent)}
 .tfl .back-to-top svg{display:block;transition:transform .2s ease}
 .tfl .back-to-top:hover svg{transform:translateY(-2px)}

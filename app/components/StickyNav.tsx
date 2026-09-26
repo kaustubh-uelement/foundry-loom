@@ -16,7 +16,15 @@ export default function StickyNav({ show, theme, onToggleTheme }: StickyNavProps
       className={`sticky${show ? ' show' : ''}`}
       aria-hidden={!show}
     >
-      <a className="brand" href="#top" tabIndex={show ? 0 : -1}>
+      <a
+        className="brand"
+        href="#top"
+        tabIndex={show ? 0 : -1}
+        onClick={(e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }}
+      >
         <Image
           src={theme === 'dark' ? '/logo-light.png' : '/logo-dark.png'}
           alt=""
