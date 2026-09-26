@@ -52,7 +52,7 @@ export default function StickyNav({ show, theme, onToggleTheme }: StickyNavProps
           href="#contact"
           tabIndex={show ? 0 : -1}
         >
-          Contact us
+          Book a Consultation
         </a>
       </div>
     </div>

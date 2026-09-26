@@ -15,7 +15,6 @@ export const NAV: [string, string][] = [
   ['#work', 'Work'],
   ['#process', 'Process'],
   ['#events', 'Events'],
-  ['#contact', 'Contact'],
 ];
 
 export const STATS: [string, string][] = [
