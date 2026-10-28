@@ -10,6 +10,8 @@ export const SITE = {
   address: 'B12, Kalpataru Crest, LBS Marg, Bhandup West, Mumbai 400078',
   linkedin: 'https://www.linkedin.com/company/foundary-loom/posts/?feedView=all',
   youtube: 'https://www.youtube.com',
+  consultationPaymentUrl: 'https://rzp.io/rzp/thefoundryloom',
+  calendlyUrl: 'https://calendly.com/ayushi-thefoundryloom/30min',
 } as const;
 
 export const NAV: [string, string][] = [

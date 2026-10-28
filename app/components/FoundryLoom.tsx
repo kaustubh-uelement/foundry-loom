@@ -8,7 +8,7 @@ import AboutSection from './AboutSection';
 import WhoSection from './WhoSection';
 import ServicesSection from './ServicesSection';
 import WorkSection from './WorkSection';
-import RoomsSection from './RoomsSection';
+import ConsultationSection from './ConsultationSection';
 import ProcessSection from './ProcessSection';
 import EventsSection from './EventsSection';
 import ContactSection from './ContactSection';
@@ -86,7 +86,7 @@ export default function FoundryLoom() {
         </div>
 
         <WorkSection tab={tab} onTabChange={setTab} />
-        <RoomsSection />
+        <ConsultationSection />
         <ProcessSection />
         {/* <EventsSection onRsvp={openRsvp} /> */}
         <ContactSection />
