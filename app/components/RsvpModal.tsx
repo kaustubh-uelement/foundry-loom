@@ -1,15 +1,51 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { SITE, EMAIL_RE } from '@/app/lib/data';
+import { SITE, EMAIL_RE, WEB3FORMS_ACCESS_KEY } from '@/app/lib/data';
 import type { Event, FormState, RsvpPayload } from '@/app/lib/types';
 
 async function postOrMail(
   endpoint: string,
-  payload: unknown,
+  payload: Record<string, unknown>,
   subject: string,
   body: string,
+  eventInfo?: Event,
 ): Promise<{ ok: boolean; mailed?: boolean; errors?: Record<string, string>; message?: string }> {
+  const web3Key = WEB3FORMS_ACCESS_KEY;
+
+  // Direct client-side submission to Web3Forms using FormData (guaranteed CORS compatibility)
+  if (web3Key) {
+    try {
+      const fd = new FormData();
+      fd.append('access_key', web3Key);
+      fd.append('subject', subject);
+      fd.append('from_name', 'The Foundry Loom RSVP');
+      fd.append('replyto', String(payload.email || ''));
+      fd.append('event', eventInfo?.title || String(payload.event || ''));
+      fd.append('event_date', eventInfo ? `${eventInfo.day} ${eventInfo.mon} ${eventInfo.year}` : '');
+      fd.append('event_location', eventInfo?.where || '');
+      fd.append('name', String(payload.name || ''));
+      fd.append('email', String(payload.email || ''));
+      fd.append(
+        'received_at',
+        `${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`,
+      );
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: fd,
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.success) {
+        return { ok: true };
+      }
+      return { ok: false, message: json.message || 'RSVP submission failed. Please try again.' };
+    } catch {
+      /* Fallback to endpoint or mailto */
+    }
+  }
+
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -77,9 +113,10 @@ export default function RsvpModal({ event, onClose }: RsvpModalProps) {
     setRsvpState({ kind: 'sending', msg: '' });
     const r = await postOrMail(
       '/api/rsvp',
-      data,
+      data as unknown as Record<string, unknown>,
       `Seat request: ${event.title}`,
       `Name: ${data.name}\nEmail: ${data.email}`,
+      event,
     );
 
     if (r.ok && r.mailed) {

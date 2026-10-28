@@ -1,5 +1,8 @@
 import type { Case, Event } from './types';
 
+export const WEB3FORMS_ACCESS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || 'bfde38d0-ad97-47f9-9eeb-77121731fd98';
+
 export const SITE = {
   email: 'ayushi@thefoundryloom.com',
   phone: '+91 88391 39799',
@@ -14,7 +17,6 @@ export const NAV: [string, string][] = [
   ['#services', 'Services'],
   ['#work', 'Work'],
   ['#process', 'Process'],
-  ['#events', 'Events'],
 ];
 
 export const STATS: [string, string][] = [

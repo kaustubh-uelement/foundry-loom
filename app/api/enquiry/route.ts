@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EMAIL_RE } from '@/app/lib/data';
+import { EMAIL_RE, WEB3FORMS_ACCESS_KEY } from '@/app/lib/data';
 
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;
@@ -11,10 +11,13 @@ export async function POST(req: NextRequest) {
 
   const name = String(body.name ?? '').trim();
   const email = String(body.email ?? '').trim();
+  const company = String(body.company ?? '').trim();
+  const role = String(body.role ?? '').trim();
+  const channels = Array.isArray(body.channels) ? body.channels.map(String) : [];
   const goal = String(body.goal ?? '').trim();
   const honeypot = String(body.website ?? '').trim();
 
-  // Reject bots
+  // Reject bots silently
   if (honeypot) {
     return NextResponse.json({ ok: true });
   }
@@ -29,16 +32,60 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, errors }, { status: 422 });
   }
 
-  // Log submission (no email transport configured: add Nodemailer/Resend here)
+  const receivedAt = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+  // Log submission
   console.log('[enquiry]', {
     name,
     email,
-    company: String(body.company ?? '').trim(),
-    role: body.role,
-    channels: body.channels,
+    company,
+    role,
+    channels,
     goal,
-    receivedAt: new Date().toISOString(),
+    receivedAt,
   });
+
+  const web3FormsKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || process.env.WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY;
+
+  if (web3FormsKey) {
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: web3FormsKey,
+          subject: `New Lead Enquiry from ${name} [thefoundryloom.com]`,
+          from_name: 'The Foundry Loom Website',
+          name,
+          email,
+          replyto: email,
+          company: company || 'Not specified',
+          role: role || 'Not specified',
+          channels: channels.length > 0 ? channels.join(', ') : 'None',
+          goal,
+          received_at: `${receivedAt} IST`,
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (response.ok && result.success) {
+        return NextResponse.json({ ok: true });
+      }
+
+      console.error('[enquiry] Web3Forms API error:', result);
+      return NextResponse.json(
+        { ok: false, error: result.message || 'Failed to submit enquiry via Web3Forms.' },
+        { status: 500 }
+      );
+    } catch (err: unknown) {
+      console.error('[enquiry] Web3Forms exception:', err);
+      return NextResponse.json({ ok: false, error: 'Failed to send enquiry.' }, { status: 500 });
+    }
+  }
 
   return NextResponse.json({ ok: true });
 }

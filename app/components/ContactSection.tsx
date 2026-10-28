@@ -1,17 +1,56 @@
 'use client';
 
 import { useState } from 'react';
-import { SITE, CHANNELS, ROLES, EMAIL_RE } from '@/app/lib/data';
+import { SITE, CHANNELS, ROLES, EMAIL_RE, WEB3FORMS_ACCESS_KEY } from '@/app/lib/data';
 import type { FormState, EnquiryPayload } from '@/app/lib/types';
 import Arrow from './Arrow';
 import Kicker from './Kicker';
 
 async function postOrMail(
   endpoint: string,
-  payload: unknown,
+  payload: Record<string, unknown>,
   subject: string,
   body: string,
 ): Promise<{ ok: boolean; mailed?: boolean; errors?: Record<string, string>; message?: string }> {
+  const web3Key = WEB3FORMS_ACCESS_KEY;
+
+  // Direct client-side submission to Web3Forms using FormData (guaranteed CORS compatibility)
+  if (web3Key) {
+    try {
+      const fd = new FormData();
+      fd.append('access_key', web3Key);
+      fd.append('subject', subject);
+      fd.append('from_name', 'The Foundry Loom Website');
+      fd.append('replyto', String(payload.email || ''));
+      fd.append('name', String(payload.name || ''));
+      fd.append('email', String(payload.email || ''));
+      fd.append('company', String(payload.company || 'Not specified'));
+      fd.append('role', String(payload.role || 'Not specified'));
+      fd.append(
+        'channels',
+        Array.isArray(payload.channels) ? payload.channels.join(', ') : String(payload.channels || 'None'),
+      );
+      fd.append('goal', String(payload.goal || ''));
+      fd.append(
+        'received_at',
+        `${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`,
+      );
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: fd,
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.success) {
+        return { ok: true };
+      }
+      return { ok: false, message: json.message || 'Submission failed. Please try again.' };
+    } catch {
+      /* Fallback to endpoint or mailto */
+    }
+  }
+
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -57,7 +96,7 @@ export default function ContactSection() {
     setForm({ kind: 'sending', msg: '' });
 
     const body = `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nRole: ${data.role}\nChannels: ${data.channels.join(', ')}\n\nWhat I want to be known for:\n${data.goal}`;
-    const r = await postOrMail('/api/enquiry', data, `Enquiry from ${data.name}`, body);
+    const r = await postOrMail('/api/enquiry', data as unknown as Record<string, unknown>, `Enquiry from ${data.name}`, body);
 
     if (r.ok && r.mailed) {
       setForm({ kind: 'ok', msg: 'Your email app has opened with the enquiry filled in. Press send there to reach us.' });
