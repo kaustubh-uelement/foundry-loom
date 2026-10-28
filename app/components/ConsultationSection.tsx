@@ -162,9 +162,6 @@ export default function ConsultationSection() {
               </div>
             );
           })}
-
-          {/* Runway spacer so all stacked cards remain pinned before scrolling away */}
-          <div className="consultation-stack-spacer" aria-hidden="true" />
         </div>
 
         <div className="consultation-cta">
