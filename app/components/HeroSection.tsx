@@ -366,7 +366,7 @@ export default function HeroSection({
             </p>
             <div className="hero-actions">
               <a className="btn btn-light" href="#contact">
-                Book a Consultation <span className="dot"><Arrow /></span>
+                Inquire about our services <span className="dot"><Arrow /></span>
               </a>
               <a className="btn btn-ghost" href="#work">See our work</a>
             </div>

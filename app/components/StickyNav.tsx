@@ -49,10 +49,10 @@ export default function StickyNav({ show, theme, onToggleTheme }: StickyNavProps
         />
         <a
           className="btn btn-primary"
-          href="#contact"
+          href="#consultation-cta"
           tabIndex={show ? 0 : -1}
         >
-          Book a Consultation
+          Book a 30-Min Discovery Call
         </a>
       </div>
     </div>

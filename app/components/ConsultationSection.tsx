@@ -164,7 +164,7 @@ export default function ConsultationSection() {
           })}
         </div>
 
-        <div className="consultation-cta">
+        <div id="consultation-cta" className="consultation-cta">
           <a
             href={SITE.consultationPaymentUrl}
             target="_blank"

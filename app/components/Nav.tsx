@@ -58,8 +58,8 @@ export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onTogg
           </li>
         ))}
         <li className="nav-drawer-cta">
-          <a className="btn btn-primary" href="#contact" onClick={onMenuClose}>
-            Book a Consultation
+          <a className="btn btn-primary" href="#consultation-cta" onClick={onMenuClose}>
+            Book a 30-Min Discovery Call
           </a>
         </li>
       </ul>
@@ -75,8 +75,8 @@ export default function Nav({ menuOpen, onMenuToggle, onMenuClose, theme, onTogg
           <Icon name="linkedin" size={19} />
         </a>
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-        <a className="btn btn-light cta-top" href="#contact">
-          Book a Consultation
+        <a className="btn btn-light cta-top" href="#consultation-cta">
+          Book a 30-Min Discovery Call
         </a>
         <button
           className="icon-btn menu-toggle"
