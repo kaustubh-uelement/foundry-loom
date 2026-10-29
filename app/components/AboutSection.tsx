@@ -13,12 +13,12 @@ export default function AboutSection() {
             className="about-founder-img"
             src="/founder.jpg"
             alt="Ayushi Jain, Founder of The Foundry Loom"
-            width={682}
-            height={1024}
+            width={1364}
+            height={2048}
             priority
+            quality={100}
+            unoptimized
           />
-          <div className="about-art-scrim" aria-hidden="true" />
-          <figcaption>One continuous thread, from what you know to where you&apos;re heard.</figcaption>
         </figure>
         <div className="about-copy">
           <Kicker>About us</Kicker>
