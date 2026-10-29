@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { PERSONAS } from '@/app/lib/data';
 import Kicker from './Kicker';
 
@@ -18,7 +17,6 @@ export default function WhoSection() {
             </p>
           </div>
           <div className="feature">
-            <Image className="mono" src="/logo-light.png" alt="" width={230} height={230} />
             <div className="cap glass">
               <h3>Ready to be known for what you know?</h3>
               <p>If you want your ideas to open doors to deals, capital, talent and stages, this is for you.</p>
