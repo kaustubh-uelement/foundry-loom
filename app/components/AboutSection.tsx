@@ -13,8 +13,8 @@ export default function AboutSection() {
             className="about-founder-img"
             src="/founder.jpg"
             alt="Ayushi Jain, Founder of The Foundry Loom"
-            width={1364}
-            height={2048}
+            fill
+            sizes="(max-width: 768px) 100vw, 440px"
             priority
             quality={100}
             unoptimized
